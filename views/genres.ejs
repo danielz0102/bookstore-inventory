@@ -9,6 +9,16 @@
     <%- include('partials/navbar') %>
     <main>
       <h1>Genres</h1>
+      <ul>
+        <% if (genres.length === 0) { %>
+        <li>There are no genres yet</li>
+        <% } %>
+        <% genres.forEach(genre => { %>
+        <li>
+          <a href="/genres/<%= genre.id %>"><%= genre.name %></a>
+        </li>
+        <% }) %>
+      </ul>
     </main>
   </body>
 </html>

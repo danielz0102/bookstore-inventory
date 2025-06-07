@@ -13,6 +13,14 @@ app.get('/', (req, res) => {
 app.use('/books', booksRouter)
 app.use('/genres', genresRouter)
 
+//eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  console.error(err)
+  const statusCode = err.statusCode || 500
+  const msg = statusCode === 500 ? 'Internal Error' : err.message
+  res.status(statusCode || 500).render('error', { error: msg })
+})
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)
 })

@@ -9,6 +9,17 @@
     <%- include('partials/navbar') %>
     <main>
       <h1>Books</h1>
+      <ul>
+        <% if (books.length === 0) { %>
+        <li>There are no books yet</li>
+        <% } %>
+        <% books.forEach(book => { %>
+        <li>
+          <a href="/books/<%= book.id %>"><%= book.title %></a> by
+          <%= book.author %>
+        </li>
+        <% }) %>
+      </ul>
     </main>
   </body>
 </html>
