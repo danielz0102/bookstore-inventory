@@ -59,6 +59,19 @@ class GenresModel {
     )
     return rows
   }
+
+  async getByBookId(bookId) {
+    const { rows } = await handleDbError(() =>
+      db.query(
+        `SELECT g.* FROM genres g
+         JOIN books_genres bg ON g.id = bg.genre_id
+         WHERE bg.book_id = $1`,
+        [bookId],
+      ),
+    )
+
+    return rows
+  }
 }
 
 export default new GenresModel()

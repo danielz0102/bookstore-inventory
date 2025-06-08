@@ -1,6 +1,7 @@
 import BooksModel from '../models/booksModel.js'
 import GenresModel from '../models/genresModel.js'
 import asyncHandler from 'express-async-handler'
+import { NotFoundError } from '../errors/NotFoundError.js'
 
 class BooksController {
   renderBooksPage = asyncHandler(async (req, res) => {
@@ -35,6 +36,22 @@ class BooksController {
 
     await BooksModel.add(modelBook)
     res.redirect('/books')
+  })
+
+  renderBookDetailPage = asyncHandler(async (req, res) => {
+    const bookId = Number(req.params.id)
+    const book = await BooksModel.getById(bookId)
+
+    if (book === false) {
+      throw new NotFoundError(
+        `Book with ID ${bookId} not found`,
+        'Book not found',
+      )
+    }
+
+    const genres = await GenresModel.getByBookId(book.id)
+
+    res.render('bookDetail', { book, genres })
   })
 }
 
