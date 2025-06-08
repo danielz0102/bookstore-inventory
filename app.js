@@ -6,6 +6,7 @@ const app = express()
 const PORT = process.env.PORT || 3000
 
 app.set('view engine', 'ejs')
+app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
   res.render('index')
@@ -16,9 +17,9 @@ app.use('/genres', genresRouter)
 //eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   console.error(err)
-  const statusCode = err.statusCode || 500
-  const msg = statusCode === 500 ? 'Internal Error' : err.message
-  res.status(statusCode || 500).render('error', { error: msg })
+  res.status(err.statusCode || 500).render('error', {
+    error: err.friendlyMessage || 'An unexpected error occurred',
+  })
 })
 
 app.listen(PORT, () => {

@@ -6,6 +6,16 @@ class BooksController {
     const books = await BooksModel.getAll()
     res.render('books', { books })
   })
+
+  renderAddBookPage = asyncHandler(async (req, res) => {
+    res.render('addBook')
+  })
+
+  postBook = asyncHandler(async (req, res) => {
+    const book = req.body
+    await BooksModel.addBook(book)
+    res.redirect('/books')
+  })
 }
 
 export default new BooksController()

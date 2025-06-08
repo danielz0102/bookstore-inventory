@@ -2,6 +2,7 @@ export class DatabaseError extends Error {
   constructor(message) {
     super(message)
     this.name = 'DatabaseError'
+    this.friendlyMessage = 'Internal Error'
     this.statusCode = 500
   }
 }
