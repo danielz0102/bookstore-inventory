@@ -1,5 +1,6 @@
 import GenresModel from '../models/genresModel.js'
 import asyncHandler from 'express-async-handler'
+import { NotFoundError } from '../errors/NotFoundError.js'
 
 class GenresController {
   renderGenresPage = asyncHandler(async (req, res) => {
@@ -13,11 +14,6 @@ class GenresController {
 
   postGenre = asyncHandler(async (req, res) => {
     const { name } = req.body
-
-    if (!name) {
-      return res.status(400).send('Genre name is required')
-    }
-
     const id = await GenresModel.create(name)
     res.redirect(`/genres/${id}`)
   })
@@ -25,6 +21,14 @@ class GenresController {
   renderGenreDetailPage = asyncHandler(async (req, res) => {
     const { id } = req.params
     const genre = await GenresModel.getById(id)
+
+    if (genre === false) {
+      throw new NotFoundError(
+        `Genre with id ${id} not found`,
+        'Genre not found',
+      )
+    }
+
     res.render('genreDetail', { genre })
   })
 }

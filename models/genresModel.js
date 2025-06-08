@@ -1,6 +1,5 @@
 import db from '../db/pool.js'
 import { handleDbError } from '../errors/DatabaseError.js'
-import { NotFoundError } from '../errors/NotFoundError.js'
 
 class GenresModel {
   async getAll() {
@@ -21,10 +20,7 @@ class GenresModel {
     )
 
     if (rows.length === 0) {
-      throw new NotFoundError(
-        `Genre with id ${id} not found`,
-        'Genre not found',
-      )
+      return false
     }
 
     return rows[0]
