@@ -49,6 +49,16 @@ class GenresModel {
 
     return rowCount > 0
   }
+
+  async getPage(limit, offset = 0) {
+    const { rows } = await handleDbError(() =>
+      db.query('SELECT * FROM genres ORDER BY id LIMIT $1 OFFSET $2', [
+        limit,
+        offset,
+      ]),
+    )
+    return rows
+  }
 }
 
 export default new GenresModel()

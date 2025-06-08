@@ -22,7 +22,7 @@ class BooksModel {
   async add(book) {
     const { title, author, description, pages, publishedDate, genresIds } = book
     const query =
-      'INSERT INTO books (title, author, description, pages, published_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id'
+      'INSERT INTO books (title, author, description, pages, published_date) VALUES ($1, $2, $3, $4, $5) RETURNING id'
     const values = [title, author, description, pages, publishedDate]
 
     const { rows } = await handleDbError(() => db.query(query, values))
