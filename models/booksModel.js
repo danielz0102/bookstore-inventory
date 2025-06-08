@@ -20,10 +20,18 @@ class BooksModel {
   }
 
   async add(book) {
-    const { title, author, description, pages, publishedDate, genresIds } = book
+    const {
+      title,
+      author,
+      description,
+      pages,
+      publishedDate,
+      isbn,
+      genresIds,
+    } = book
     const query =
-      'INSERT INTO books (title, author, description, pages, published_date) VALUES ($1, $2, $3, $4, $5) RETURNING id'
-    const values = [title, author, description, pages, publishedDate]
+      'INSERT INTO books (title, author, description, pages, published_date, isbn) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id'
+    const values = [title, author, description, pages, publishedDate, isbn]
 
     const { rows } = await handleDbError(() => db.query(query, values))
     const bookId = rows[0].id

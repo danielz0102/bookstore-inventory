@@ -31,6 +31,7 @@ class BooksController {
       description: book.description,
       pages: Number(book.pages),
       publishedDate: book.publishedDate,
+      isbn: book.isbn,
       genresIds,
     }
 
