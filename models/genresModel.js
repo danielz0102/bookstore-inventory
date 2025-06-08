@@ -25,6 +25,30 @@ class GenresModel {
 
     return rows[0]
   }
+
+  async update(id, name) {
+    const { rowCount } = await handleDbError(() =>
+      db.query('UPDATE genres SET name = $1 WHERE id = $2 RETURNING *', [
+        name,
+        id,
+      ]),
+    )
+
+    return rowCount > 0
+  }
+
+  async delete(id) {
+    // First, delete the associations in the junction table, if any
+    await handleDbError(() =>
+      db.query('DELETE FROM books_genres WHERE genre_id = $1', [id]),
+    )
+
+    const { rowCount } = await handleDbError(() =>
+      db.query('DELETE FROM genres WHERE id = $1', [id]),
+    )
+
+    return rowCount > 0
+  }
 }
 
 export default new GenresModel()
