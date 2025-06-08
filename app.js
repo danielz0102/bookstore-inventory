@@ -14,6 +14,10 @@ app.get('/', (req, res) => {
 app.use('/books', booksRouter)
 app.use('/genres', genresRouter)
 
+app.use((req, res) => {
+  res.status(404).render('404')
+})
+
 //eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   console.error(err)
