@@ -1,4 +1,5 @@
 import { Client } from 'pg'
+import 'dotenv/config'
 
 const SQL = `
 DROP TABLE IF EXISTS books_genres;
@@ -26,10 +27,12 @@ CREATE TABLE IF NOT EXISTS books_genres (
 );
 `
 
+const DB_URL = process.argv[2] || process.env.DB_URL
+
 async function main() {
   console.log('seeding...')
   const client = new Client({
-    connectionString: process.argv[2],
+    connectionString: DB_URL,
   })
   await client.connect()
   await client.query(SQL)
