@@ -31,6 +31,12 @@ class GenresController {
 
     res.render('genreDetail', { genre })
   })
+
+  delete = asyncHandler(async (req, res) => {
+    const id = Number(req.params.id)
+    await GenresModel.delete(id)
+    res.redirect('/genres')
+  })
 }
 
 export default new GenresController()

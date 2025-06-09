@@ -20,7 +20,6 @@ class BooksController {
     validateBook,
     asyncHandler(async (req, res) => {
       const errors = validationResult(req)
-      console.log(errors.array())
 
       if (!errors.isEmpty()) {
         const genres = await GenresModel.getPage(10)
