@@ -1,0 +1,108 @@
+<main>
+  <h1>Add a new book</h1>
+
+  <% if (locals.errors) { %>
+  <%- include('partials/errors', { errors }) %>
+  <% } %>
+
+  <form action="/books/add" method="POST">
+    <label for="title">Title <small>(required)</small></label>
+    <input
+      value="<%= locals.oldData?.title || '' %>"
+      type="text"
+      id="title"
+      name="title"
+      maxlength="100"
+      required
+    />
+
+    <label for="author">Author <small>(required)</small></label>
+    <input
+      value="<%= locals.oldData?.author || '' %>"
+      type="text"
+      id="author"
+      name="author"
+      maxlength="100"
+      required
+    />
+
+    <label for="description">Description</label>
+    <textarea id="description" name="description">
+<%= locals.oldData?.description || '' %></textarea
+    >
+
+    <label for="pages">Number of pages <small>(required)</small></label>
+    <input
+      value="<%= locals.oldData?.pages || '' %>"
+      type="number"
+      id="pages"
+      name="pages"
+      min="1"
+      max="9999"
+      required
+    />
+
+    <label for="publishedDate">Published date <small>(required)</small></label>
+    <input
+      value="<%= locals.oldData?.publishedDate || '' %>"
+      type="date"
+      id="publishedDate"
+      name="publishedDate"
+      required
+    />
+
+    <label for="isbn">ISBN</label>
+    <input
+      value="<%= locals.oldData?.isbn || '' %>"
+      type="text"
+      id="isbn"
+      name="isbn"
+      maxlength="20"
+    />
+
+    <label for="genres"> Select the book genres</label>
+    <select id="genres" name="genres" multiple>
+      <% if (genres.length===0) { %>
+      <option value="" disabled>No genres available</option>
+      <% } else { %>
+      <% genres.forEach((genre)=> { %>
+      <option value="<%= genre.id %>"><%= genre.name %></option>
+      <% })} %>
+    </select>
+
+    <button type="submit">Add Book</button>
+  </form>
+</main>
+<script>
+  const form = document.querySelector('form')
+  document.getElementById('publishedDate').max = new Date()
+    .toISOString()
+    .split('T')[0]
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault()
+    const isbnInput = document.getElementById('isbn')
+    const isbnValue = isbnInput.value.trim()
+
+    if (isbnValue === '') {
+      isbnInput.setCustomValidity('')
+      return form.submit()
+    }
+
+    if (!isbnIsValid(isbnValue)) {
+      isbnInput.setCustomValidity('Please enter a valid ISBN-10 or ISBN-13.')
+      return isbnInput.reportValidity()
+    }
+
+    isbnInput.setCustomValidity('')
+    form.submit()
+  })
+
+  function isbnIsValid(str) {
+    // Regular expression to validate ISBN-10 or ISBN-13
+    const isbnRegex =
+      /^(?:ISBN(?:-1[03])?:?\s*)?(?=[-0-9 ]{10,17}$)(?:97[89][- ]?)?(?=[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$)(?:[0-9]+[- ]?){3}[0-9X]$/
+
+    return isbnRegex.test(str)
+  }
+</script>

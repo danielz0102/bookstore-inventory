@@ -8,12 +8,12 @@ import { validationResult, matchedData } from 'express-validator'
 class BooksController {
   renderBooksPage = asyncHandler(async (req, res) => {
     const books = await BooksModel.getAll()
-    res.render('books', { books })
+    res.render('books/index', { title: 'Books', books })
   })
 
   renderAddBookPage = asyncHandler(async (req, res) => {
     const genres = await GenresModel.getPage(10)
-    res.render('addBook', { genres })
+    res.render('books/add', { title: 'Add a new book', genres })
   })
 
   postBook = [
@@ -24,7 +24,8 @@ class BooksController {
       if (!errors.isEmpty()) {
         const genres = await GenresModel.getPage(10)
 
-        return res.render('addBook', {
+        return res.render('books/add', {
+          title: 'Add a new book',
           errors: errors.array(),
           oldData: req.body,
           genres,
@@ -69,7 +70,7 @@ class BooksController {
 
     const genres = await GenresModel.getByBookId(book.id)
 
-    res.render('bookDetail', { book, genres })
+    res.render('books/detail', { title: book.name, book, genres })
   })
 
   delete = asyncHandler(async (req, res) => {
