@@ -30,6 +30,13 @@ CREATE TABLE IF NOT EXISTS books_genres (
 
 const DB_URL = process.argv[2] || process.env.DB_URL
 
+if (!DB_URL) {
+  console.error(
+    'No database URL provided. Please set the DB_URL environment variable or pass it as an argument.',
+  )
+  process.exit(1)
+}
+
 async function main() {
   console.log('seeding...')
   const client = new Client({
