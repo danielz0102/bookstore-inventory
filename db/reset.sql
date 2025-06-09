@@ -1,9 +1,7 @@
-import { Client } from 'pg'
-import 'dotenv/config'
-
-const SQL = `
 DROP TABLE IF EXISTS books_genres;
+
 DROP TABLE IF EXISTS genres;
+
 DROP TABLE IF EXISTS books;
 
 CREATE TABLE IF NOT EXISTS books (
@@ -26,26 +24,3 @@ CREATE TABLE IF NOT EXISTS books_genres (
   genre_id INTEGER NOT NULL REFERENCES genres (id) ON DELETE CASCADE,
   PRIMARY KEY (book_id, genre_id)
 );
-`
-
-const DB_URL = process.argv[2] || process.env.DB_URL
-
-if (!DB_URL) {
-  console.error(
-    'No database URL provided. Please set the DB_URL environment variable or pass it as an argument.',
-  )
-  process.exit(1)
-}
-
-async function main() {
-  console.log('seeding...')
-  const client = new Client({
-    connectionString: DB_URL,
-  })
-  await client.connect()
-  await client.query(SQL)
-  await client.end()
-  console.log('done')
-}
-
-main()
