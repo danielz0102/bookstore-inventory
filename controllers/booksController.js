@@ -2,6 +2,8 @@ import BooksModel from '../models/booksModel.js'
 import GenresModel from '../models/genresModel.js'
 import asyncHandler from 'express-async-handler'
 import { NotFoundError } from '../errors/NotFoundError.js'
+import { validateBook } from '../validations/bookValidation.js'
+import { validationResult, matchedData } from 'express-validator'
 
 class BooksController {
   renderBooksPage = asyncHandler(async (req, res) => {
@@ -14,30 +16,46 @@ class BooksController {
     res.render('addBook', { genres })
   })
 
-  postBook = asyncHandler(async (req, res) => {
-    const book = req.body
-    let genresIds = []
+  postBook = [
+    validateBook,
+    asyncHandler(async (req, res) => {
+      const errors = validationResult(req)
+      console.log(errors.array())
 
-    // If just one genre was sent
-    if (typeof book.genres === 'string') {
-      genresIds.push(Number(book.genres))
-    } else if (Array.isArray(book.genres)) {
-      genresIds = book.genres.map(Number)
-    }
+      if (!errors.isEmpty()) {
+        const genres = await GenresModel.getPage(10)
 
-    const modelBook = {
-      title: book.title,
-      author: book.author,
-      description: book.description,
-      pages: Number(book.pages),
-      publishedDate: book.publishedDate,
-      isbn: book.isbn,
-      genresIds,
-    }
+        return res.render('addBook', {
+          errors: errors.array(),
+          oldData: req.body,
+          genres,
+        })
+      }
 
-    await BooksModel.add(modelBook)
-    res.redirect('/books')
-  })
+      const book = matchedData(req)
+      let genresIds = []
+
+      // If just one genre was sent
+      if (typeof book.genres === 'string') {
+        genresIds.push(Number(book.genres))
+      } else if (Array.isArray(book.genres)) {
+        genresIds = book.genres.map(Number)
+      }
+
+      const modelBook = {
+        title: book.title,
+        author: book.author,
+        description: book.description,
+        pages: book.pages,
+        publishedDate: book.publishedDate,
+        isbn: book.isbn,
+        genresIds,
+      }
+
+      await BooksModel.add(modelBook)
+      res.redirect('/books')
+    }),
+  ]
 
   renderBookDetailPage = asyncHandler(async (req, res) => {
     const bookId = Number(req.params.id)
