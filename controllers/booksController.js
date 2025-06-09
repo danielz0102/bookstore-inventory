@@ -72,6 +72,12 @@ class BooksController {
 
     res.render('bookDetail', { book, genres })
   })
+
+  delete = asyncHandler(async (req, res) => {
+    const bookId = Number(req.params.id)
+    await BooksModel.delete(bookId)
+    res.redirect('/books')
+  })
 }
 
 export default new BooksController()

@@ -41,6 +41,9 @@
         <% }) %>
         <% } %>
       </ul>
+      <form action="/books/delete/<%= book.id %>" method="post">
+        <button>Delete</button>
+      </form>
       <a href="/books">Back to Books</a>
     </main>
   </body>
