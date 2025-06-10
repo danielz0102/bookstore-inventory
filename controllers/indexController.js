@@ -24,6 +24,12 @@ export const renderIndexPage = asyncHandler(async (req, res) => {
     title: 'Bookstore inventory',
     section: 'Last books added',
     books: lastBooksMapped,
-    fallback: 'There are no books yet. Please add some books to the inventory.',
+    fallback: {
+      description: 'There are no books yet',
+      link: {
+        href: '/books/add',
+        call: 'Add a new book here',
+      },
+    },
   })
 })
