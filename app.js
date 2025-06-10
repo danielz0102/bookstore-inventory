@@ -1,19 +1,19 @@
 import express from 'express'
+import expressLayouts from 'express-ejs-layouts'
 import { booksRouter } from './routes/booksRouter.js'
 import { genresRouter } from './routes/genresRouter.js'
-import expressLayouts from 'express-ejs-layouts'
+import { indexRouter } from './routes/indexRouter.js'
 
 const app = express()
 const PORT = process.env.PORT || 3000
 
 app.set('view engine', 'ejs')
+app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 app.use(expressLayouts)
 app.set('layout', 'layouts/main')
 
-app.get('/', (req, res) => {
-  res.render('index', { title: 'Bookstore inventory' })
-})
+app.use('/', indexRouter)
 app.use('/books', booksRouter)
 app.use('/genres', genresRouter)
 

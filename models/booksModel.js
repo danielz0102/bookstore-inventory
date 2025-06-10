@@ -19,6 +19,13 @@ class BooksModel {
     return rows[0]
   }
 
+  async getLast(limit) {
+    const query = 'SELECT * FROM books ORDER BY id DESC LIMIT $1'
+    const values = [limit]
+    const { rows } = await handleDbError(() => db.query(query, values))
+    return rows
+  }
+
   async add(book) {
     const {
       title,
