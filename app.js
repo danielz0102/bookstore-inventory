@@ -3,8 +3,8 @@ import expressLayouts from 'express-ejs-layouts'
 import { booksRouter } from './routes/booksRouter.js'
 import { genresRouter } from './routes/genresRouter.js'
 import { indexRouter } from './routes/indexRouter.js'
-import { render404 } from './middlewares/render404.js'
-import { handleError } from './middlewares/handleError.js'
+import { render404 } from './lib/middlewares/render404.js'
+import { handleError } from './lib/middlewares/handleError.js'
 
 const app = express()
 const PORT = process.env.PORT || 3000

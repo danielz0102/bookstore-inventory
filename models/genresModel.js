@@ -1,5 +1,5 @@
 import db from '../db/pool.js'
-import { handleDbError } from '../errors/DatabaseError.js'
+import { handleDbError } from '../lib/errors/DatabaseError.js'
 
 class GenresModel {
   async getAll() {
