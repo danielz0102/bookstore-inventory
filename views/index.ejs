@@ -1,18 +1,22 @@
 <style>
   main {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) / 2);
+    max-width: 800px;
+    width: 100%;
+    margin-inline: auto;
+
     padding: var(--spacing);
 
     & h1 {
-      margin-bottom: var(--spacing);
       font-weight: bold;
       text-align: center;
+      font-size: 3rem;
     }
   }
 
   section {
-    max-width: 800px;
-    margin-inline: auto;
-
     display: flex;
     flex-direction: column;
     gap: calc(var(--spacing) / 2);
@@ -70,11 +74,11 @@
 <main>
   <h1>Bookstore Inventory</h1>
   <section>
+    <% if (books.length === 0) { %>
+    <%- include('partials/empty', { fallback }) %>
+    <% } else { %>
     <h2><%= section %></h2>
     <ul class="book-list">
-      <% if (books.length === 0) { %>
-      <li><%= fallback %></li>
-      <% } else { %>
       <% books.forEach(book => { %>
       <li class="book-card">
         <a href="/books/<%= book.id %>">
