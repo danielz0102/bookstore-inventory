@@ -35,10 +35,10 @@ class BooksModel {
       publishedDate,
       isbn,
       genresIds,
-      coverFilename,
+      coverPath,
     } = book
     const query =
-      'INSERT INTO books (title, author, description, pages, published_date, isbn, cover_filename) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id'
+      'INSERT INTO books (title, author, description, pages, published_date, isbn, cover_path) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id'
 
     const values = [
       title,
@@ -47,7 +47,7 @@ class BooksModel {
       pages,
       publishedDate,
       isbn,
-      coverFilename,
+      coverPath,
     ]
 
     const { rows } = await handleDbError(() => db.query(query, values))

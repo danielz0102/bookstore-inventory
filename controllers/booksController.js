@@ -57,7 +57,9 @@ class BooksController {
         publishedDate: book.publishedDate,
         isbn: book.isbn,
         genresIds,
-        coverFilename: req.file ? req.file.filename : 'placeholder.webp',
+        coverPath: req.file
+          ? `books/${req.file.filename}`
+          : 'initial/placeholder.webp',
       }
 
       await BooksModel.add(modelBook)
@@ -78,7 +80,7 @@ class BooksController {
 
     const genres = await GenresModel.getByBookId(book.id)
 
-    const coverImg = await fs.readFile(`uploads/books/${book.cover_filename}`, {
+    const coverImg = await fs.readFile(`uploads/${book.cover_path}`, {
       encoding: 'base64',
     })
 
