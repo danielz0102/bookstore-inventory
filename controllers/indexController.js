@@ -7,7 +7,7 @@ export const renderIndexPage = asyncHandler(async (req, res) => {
 
   const lastBooksMapped = await Promise.all(
     lastBooks.map(async (book) => {
-      const imgSrc = await fs.readFile(`uploads/books/${book.cover_filename}`, {
+      const imgSrc = await fs.readFile(`uploads/${book.cover_path}`, {
         encoding: 'base64',
       })
 

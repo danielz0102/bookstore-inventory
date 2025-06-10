@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS books (
   pages INTEGER NOT NULL,
   published_date DATE NOT NULL,
   isbn VARCHAR(20) UNIQUE,
-  cover_filename VARCHAR(255)
+  cover_path VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS genres (

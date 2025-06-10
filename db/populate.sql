@@ -20,7 +20,7 @@ INSERT INTO
     pages,
     published_date,
     isbn,
-    cover_filename
+    cover_path
   )
 VALUES
   (
@@ -30,7 +30,7 @@ VALUES
     281,
     '1960-07-11',
     '9780061120084',
-    'placeholder.webp'
+    'initial/to-kill-a-mockingbird.webp'
   ),
   (
     '1984',
@@ -39,7 +39,7 @@ VALUES
     328,
     '1949-06-08',
     '9780451524935',
-    'placeholder.webp'
+    'initial/1984.webp'
   ),
   (
     'The Hobbit',
@@ -48,7 +48,7 @@ VALUES
     310,
     '1937-09-21',
     '9780547928227',
-    'the_hobbit.jpeg'
+    'initial/the-hobbit.jpeg'
   ),
   (
     'The Da Vinci Code',
@@ -57,7 +57,7 @@ VALUES
     454,
     '2003-03-18',
     '9780307474278',
-    'placeholder.webp'
+    'initial/the-da-vinci-code.webp'
   ),
   (
     'Sapiens',
@@ -66,7 +66,7 @@ VALUES
     443,
     '2011-01-01',
     '9780062316097',
-    'placeholder.webp'
+    'initial/sapiens.webp'
   ),
   (
     'Steve Jobs',
@@ -75,7 +75,7 @@ VALUES
     656,
     '2011-10-24',
     '9781451648539',
-    'placeholder.webp'
+    'initial/steve-jobs.webp'
   ),
   (
     'The Diary of a Young Girl',
@@ -84,7 +84,7 @@ VALUES
     283,
     '1947-06-25',
     '9780553296983',
-    'placeholder.webp'
+    'initial/the-diary-of-a-young-girl.webp'
   ),
   (
     'Pride and Prejudice',
@@ -93,7 +93,7 @@ VALUES
     279,
     '1813-01-28',
     '9780141439518',
-    'placeholder.webp'
+    'initial/pride-and-prejudice.webp'
   ),
   (
     'Dracula',
@@ -102,7 +102,7 @@ VALUES
     418,
     '1897-05-26',
     '9780486411095',
-    'placeholder.webp'
+    'initial/dracula.webp'
   ),
   (
     'The Fault in Our Stars',
@@ -111,7 +111,7 @@ VALUES
     313,
     '2012-01-10',
     '9780525478812',
-    'placeholder.webp'
+    'initial/the-fault-in-our-stars.webp'
   );
 
 INSERT INTO
