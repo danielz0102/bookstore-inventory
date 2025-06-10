@@ -1,5 +1,3 @@
-import fs from 'node:fs/promises'
-
 import multer from 'multer'
 import { validationResult, matchedData } from 'express-validator'
 import asyncHandler from 'express-async-handler'
@@ -9,7 +7,7 @@ import GenresModel from '../models/genresModel.js'
 import { NotFoundError } from '../lib/errors/NotFoundError.js'
 import { validateBook } from '../lib/validations/bookValidation.js'
 
-const upload = multer({ dest: 'uploads/books/' })
+const upload = multer({ dest: 'public/uploads/bookCovers/' })
 
 class BooksController {
   renderBooksPage = asyncHandler(async (req, res) => {
@@ -58,7 +56,7 @@ class BooksController {
         isbn: book.isbn,
         genresIds,
         coverPath: req.file
-          ? `books/${req.file.filename}`
+          ? `bookCovers/${req.file.filename}`
           : 'initial/placeholder.webp',
       }
 
@@ -80,13 +78,11 @@ class BooksController {
 
     const genres = await GenresModel.getByBookId(book.id)
 
-    const coverImg = await fs.readFile(`uploads/${book.cover_path}`, {
-      encoding: 'base64',
-    })
+    console.log({ path: book.cover_path })
 
     res.render('books/detail', {
       title: book.name,
-      book: { ...book, coverImg },
+      book,
       genres,
     })
   })

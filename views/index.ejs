@@ -83,10 +83,7 @@
       <li class="book-card">
         <a href="/books/<%= book.id %>">
           <div class="image-container">
-            <img
-              src="data:image/*;base64,<%= book.imgSrc %>"
-              alt="Cover of <%= book.title %>"
-            />
+            <img src="<%= book.imgSrc %>" alt="Cover of <%= book.title %>" />
           </div>
           <h3><%= book.title %></h3>
           <p><%= book.author %></p>
