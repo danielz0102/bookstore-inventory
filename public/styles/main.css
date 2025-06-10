@@ -6,7 +6,7 @@
 
 body {
   height: 100dvh;
-  font-family: system-ui;
+  font-family: sans-serif;
   display: grid;
   grid-template-rows: auto 1fr auto;
   background-color: var(--background);
@@ -27,7 +27,29 @@ header {
 }
 
 .link {
+  --foreground: #83bee8;
+
   display: flex;
+  text-decoration: none;
   gap: calc(var(--spacing) / 4);
   color: var(--foreground);
+  position: relative;
+
+  &:hover {
+    opacity: 0.5;
+
+    &::after {
+      width: 100%;
+    }
+  }
+
+  &::after {
+    position: absolute;
+    bottom: 0px;
+    content: '';
+    width: 0;
+    height: 1px;
+    background-color: var(--foreground);
+    z-index: 1;
+  }
 }
