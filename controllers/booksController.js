@@ -1,9 +1,15 @@
+import fs from 'node:fs/promises'
+
+import multer from 'multer'
+import { validationResult, matchedData } from 'express-validator'
+import asyncHandler from 'express-async-handler'
+
 import BooksModel from '../models/booksModel.js'
 import GenresModel from '../models/genresModel.js'
-import asyncHandler from 'express-async-handler'
 import { NotFoundError } from '../errors/NotFoundError.js'
 import { validateBook } from '../validations/bookValidation.js'
-import { validationResult, matchedData } from 'express-validator'
+
+const upload = multer({ dest: 'uploads/books/' })
 
 class BooksController {
   renderBooksPage = asyncHandler(async (req, res) => {
@@ -17,6 +23,7 @@ class BooksController {
   })
 
   postBook = [
+    upload.single('coverImg'),
     validateBook,
     asyncHandler(async (req, res) => {
       const errors = validationResult(req)
@@ -50,6 +57,7 @@ class BooksController {
         publishedDate: book.publishedDate,
         isbn: book.isbn,
         genresIds,
+        coverFilename: req.file ? req.file.filename : 'placeholder.webp',
       }
 
       await BooksModel.add(modelBook)
@@ -70,7 +78,15 @@ class BooksController {
 
     const genres = await GenresModel.getByBookId(book.id)
 
-    res.render('books/detail', { title: book.name, book, genres })
+    const coverImg = await fs.readFile(`uploads/books/${book.cover_filename}`, {
+      encoding: 'base64',
+    })
+
+    res.render('books/detail', {
+      title: book.name,
+      book: { ...book, coverImg },
+      genres,
+    })
   })
 
   delete = asyncHandler(async (req, res) => {
@@ -82,8 +98,6 @@ class BooksController {
   renderUpdatePage = asyncHandler(async (req, res) => {
     const bookId = Number(req.params.id)
     const book = await BooksModel.getById(bookId)
-
-    console.log({ book })
 
     if (book === false) {
       throw new NotFoundError(

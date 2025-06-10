@@ -2,10 +2,10 @@
   <h1>Add a new book</h1>
 
   <% if (locals.errors) { %>
-  <%- include('partials/errors', { errors }) %>
+  <%- include('../partials/errors', { errors }) %>
   <% } %>
 
-  <form action="/books/add" method="POST">
+  <form action="/books/add" method="POST" enctype="multipart/form-data">
     <label for="title">Title <small>(required)</small></label>
     <input
       value="<%= locals.oldData?.title || '' %>"
@@ -69,6 +69,14 @@
       <option value="<%= genre.id %>"><%= genre.name %></option>
       <% })} %>
     </select>
+
+    <label for="cover">Book cover image</label>
+    <input
+      type="file"
+      id="cover"
+      name="coverImg"
+      accept="image/jpeg, image/jpg, image/png, image/webp, image/avif"
+    />
 
     <button type="submit">Add Book</button>
   </form>

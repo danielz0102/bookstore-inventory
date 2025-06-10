@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS books (
   description TEXT,
   pages INTEGER NOT NULL,
   published_date DATE NOT NULL,
-  isbn VARCHAR(20) UNIQUE
+  isbn VARCHAR(20) UNIQUE,
+  cover_filename VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS genres (

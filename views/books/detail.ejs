@@ -1,5 +1,11 @@
 <main>
   <h1><%= book.title %></h1>
+  <img
+    width="200"
+    height="200"
+    src="data:image/*;base64,<%= book.coverImg %>"
+    alt="Cover image of <%= book.title %>"
+  />
   <p>
     <strong>Author:</strong>
     <%= book.author %>
