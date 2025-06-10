@@ -1,0 +1,29 @@
+import fs from 'node:fs/promises'
+import asyncHandler from 'express-async-handler'
+import BooksModel from '../models/booksModel.js'
+
+export const renderIndexPage = asyncHandler(async (req, res) => {
+  const lastBooks = await BooksModel.getLast(9)
+
+  const lastBooksMapped = await Promise.all(
+    lastBooks.map(async (book) => {
+      const imgSrc = await fs.readFile(`uploads/books/${book.cover_filename}`, {
+        encoding: 'base64',
+      })
+
+      return {
+        id: book.id,
+        imgSrc,
+        title: book.title,
+        author: book.author,
+      }
+    }),
+  )
+
+  res.render('index', {
+    title: 'Bookstore inventory',
+    section: 'Last books added',
+    books: lastBooksMapped,
+    fallback: 'There are no books yet. Please add some books to the inventory.',
+  })
+})

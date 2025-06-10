@@ -1,0 +1,33 @@
+:root {
+  --foreground: #f0f0f0;
+  --background: #1d1c1c;
+  --spacing: 16px;
+}
+
+body {
+  height: 100dvh;
+  font-family: system-ui;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing);
+
+  & ul {
+    display: flex;
+    gap: var(--spacing);
+    list-style: none;
+  }
+}
+
+.link {
+  display: flex;
+  gap: calc(var(--spacing) / 4);
+  color: var(--foreground);
+}
