@@ -6,8 +6,8 @@ import asyncHandler from 'express-async-handler'
 
 import BooksModel from '../models/booksModel.js'
 import GenresModel from '../models/genresModel.js'
-import { NotFoundError } from '../errors/NotFoundError.js'
-import { validateBook } from '../validations/bookValidation.js'
+import { NotFoundError } from '../lib/errors/NotFoundError.js'
+import { validateBook } from '../lib/validations/bookValidation.js'
 
 const upload = multer({ dest: 'uploads/books/' })
 

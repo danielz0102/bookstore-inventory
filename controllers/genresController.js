@@ -1,6 +1,6 @@
 import GenresModel from '../models/genresModel.js'
 import asyncHandler from 'express-async-handler'
-import { NotFoundError } from '../errors/NotFoundError.js'
+import { NotFoundError } from '../lib/errors/NotFoundError.js'
 
 class GenresController {
   renderGenresPage = asyncHandler(async (req, res) => {
