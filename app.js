@@ -3,6 +3,8 @@ import expressLayouts from 'express-ejs-layouts'
 import { booksRouter } from './routes/booksRouter.js'
 import { genresRouter } from './routes/genresRouter.js'
 import { indexRouter } from './routes/indexRouter.js'
+import { render404 } from './middlewares/render404.js'
+import { handleError } from './middlewares/handleError.js'
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -16,21 +18,7 @@ app.set('layout', 'layouts/main')
 app.use('/', indexRouter)
 app.use('/books', booksRouter)
 app.use('/genres', genresRouter)
-
-app.use((req, res) => {
-  res.status(404).render('errors/404', {
-    title: 'Page Not Found',
-  })
-})
-
-//eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
-  console.error(err)
-  res.status(err.statusCode || 500).render('errors/index', {
-    title: 'Error',
-    error: err.friendlyMessage || 'An unexpected error occurred',
-  })
-})
+app.use(render404, handleError)
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)
