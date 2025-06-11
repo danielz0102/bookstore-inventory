@@ -78,8 +78,6 @@ class BooksController {
 
     const genres = await GenresModel.getByBookId(book.id)
 
-    console.log({ path: book.cover_path })
-
     res.render('books/detail', {
       title: book.name,
       book,
