@@ -3,7 +3,7 @@ import expressLayouts from 'express-ejs-layouts'
 import { booksRouter } from './routes/booksRouter.js'
 import { genresRouter } from './routes/genresRouter.js'
 import { indexRouter } from './routes/indexRouter.js'
-import { render404 } from './lib/middlewares/render404.js'
+import { handle404 } from './lib/middlewares/render404.js'
 import { handleError } from './lib/middlewares/handleError.js'
 
 const app = express()
@@ -18,7 +18,7 @@ app.set('layout', 'layouts/main')
 app.use('/', indexRouter)
 app.use('/books', booksRouter)
 app.use('/genres', genresRouter)
-app.use(render404, handleError)
+app.use(handle404, handleError)
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)
