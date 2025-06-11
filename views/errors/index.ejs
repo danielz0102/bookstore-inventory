@@ -1,5 +1,22 @@
+<style>
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    & h1 {
+      margin-bottom: calc(var(--spacing) / 2);
+    }
+
+    & p {
+      margin-bottom: calc(var(--spacing) / 4);
+    }
+  }
+</style>
+
 <main>
-  <h1><%= title %></h1>
+  <h1 class="title"><%= title %></h1>
   <p><%= error %></p>
-  <a href="/">Go back to Home</a>
+  <a class="link" href="/">Go back to Home</a>
 </main>
