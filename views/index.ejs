@@ -71,10 +71,10 @@
 
 <main>
   <h1 class="title">Bookstore Inventory</h1>
+  <% if (books.length === 0) { %>
+  <%- include('partials/empty', { fallback }) %>
+  <% } else { %>
   <section>
-    <% if (books.length === 0) { %>
-    <%- include('partials/empty', { fallback }) %>
-    <% } else { %>
     <h2><%= section %></h2>
     <ul class="book-list">
       <% books.forEach(book => { %>
