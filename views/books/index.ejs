@@ -1,15 +1,29 @@
+<style>
+  main {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing);
+    gap: calc(var(--spacing) / 2);
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+</style>
+
 <main>
-  <h1>Books</h1>
-  <ul>
-    <% if (books.length === 0) { %>
-    <li>There are no books yet</li>
-    <% } %>
+  <h1 class="title">Books</h1>
+  <% if (books.length === 0) { %>
+  <%- include('../partials/empty', { fallback }) %>
+  <% } else { %>
+  <ul class="book-list">
     <% books.forEach(book => { %>
-    <li>
-      <a href="/books/<%= book.id %>"><%= book.title %></a> by
-      <%= book.author %>
-    </li>
+    <%- include('../partials/bookCard', { book }) %>
     <% }) %>
   </ul>
-  <a href="/books/add">Add a new book</a>
+  <% } %>
 </main>

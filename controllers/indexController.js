@@ -1,26 +1,16 @@
 import asyncHandler from 'express-async-handler'
 import BooksModel from '../models/booksModel.js'
+import { booksFallbackOptions } from '../lib/constants/booksFallbackOptions.js'
+import { getBookCard } from './lib/getBookCard.js'
 
 export const renderIndexPage = asyncHandler(async (req, res) => {
   const lastBooks = await BooksModel.getLast(9)
-
-  const lastBooksMapped = lastBooks.map((book) => ({
-    id: book.id,
-    imgSrc: book.cover_path,
-    title: book.title,
-    author: book.author,
-  }))
+  const lastBooksMapped = lastBooks.map(getBookCard)
 
   res.render('index', {
     title: 'Bookstore inventory',
     section: 'Last books added',
     books: lastBooksMapped,
-    fallback: {
-      description: 'There are no books yet',
-      link: {
-        href: '/books/add',
-        call: 'Add a new book here',
-      },
-    },
+    fallback: booksFallbackOptions,
   })
 })

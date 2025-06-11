@@ -6,13 +6,21 @@ import BooksModel from '../models/booksModel.js'
 import GenresModel from '../models/genresModel.js'
 import { NotFoundError } from '../lib/errors/NotFoundError.js'
 import { validateBook } from '../lib/validations/bookValidation.js'
+import { booksFallbackOptions } from '../lib/constants/booksFallbackOptions.js'
+import { getBookCard } from './lib/getBookCard.js'
 
 const upload = multer({ dest: 'public/uploads/bookCovers/' })
 
 class BooksController {
   renderBooksPage = asyncHandler(async (req, res) => {
-    const books = await BooksModel.getAll()
-    res.render('books/index', { title: 'Books', books })
+    const modelBooks = await BooksModel.getPage(30)
+    const books = modelBooks.map(getBookCard)
+
+    res.render('books/index', {
+      title: 'Books',
+      books,
+      fallback: booksFallbackOptions,
+    })
   })
 
   renderAddBookPage = asyncHandler(async (req, res) => {
