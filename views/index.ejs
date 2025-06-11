@@ -19,54 +19,6 @@
     flex-direction: column;
     gap: calc(var(--spacing) / 2);
   }
-
-  .book-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing);
-    list-style: none;
-  }
-
-  .book-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    background-color: #444444;
-    border-radius: calc(var(--spacing) / 2);
-    padding-bottom: var(--spacing);
-    overflow: hidden;
-    text-align: center;
-
-    & a {
-      color: var(--foreground);
-      text-decoration: none;
-      transition: transform 0.25s ease-in-out;
-      width: 100%;
-      height: 100%;
-    }
-
-    & img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    & h3 {
-      font-weight: bold;
-    }
-
-    &:hover {
-      & a {
-        transform: scale(1.05);
-      }
-    }
-  }
-
-  .image-container {
-    margin-bottom: calc(var(--spacing) / 2);
-    height: 400px;
-  }
 </style>
 
 <main>
@@ -78,16 +30,9 @@
     <h2><%= section %></h2>
     <ul class="book-list">
       <% books.forEach(book => { %>
-      <li class="book-card">
-        <a href="/books/<%= book.id %>">
-          <div class="image-container">
-            <img src="<%= book.imgSrc %>" alt="Cover of <%= book.title %>" />
-          </div>
-          <h3><%= book.title %></h3>
-          <p><%= book.author %></p>
-        </a>
-      </li>
-      <% })} %>
+      <%- include('partials/bookCard', { book }) %>
+      <% }) %>
     </ul>
   </section>
+  <% } %>
 </main>

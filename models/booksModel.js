@@ -90,6 +90,13 @@ class BooksModel {
     )
     return rowCount > 0
   }
+
+  async getPage(limit, offset) {
+    const query = 'SELECT * FROM books ORDER BY id LIMIT $1 OFFSET $2'
+    const values = [limit, offset]
+    const { rows } = await handleDbError(() => db.query(query, values))
+    return rows
+  }
 }
 
 export default new BooksModel()
