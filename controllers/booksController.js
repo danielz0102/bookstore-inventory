@@ -6,8 +6,8 @@ import BooksModel from '../models/booksModel.js'
 import GenresModel from '../models/genresModel.js'
 import { NotFoundError } from '../lib/errors/NotFoundError.js'
 import { validateBook } from '../lib/validations/bookValidation.js'
-import { booksFallbackOptions } from '../lib/constants/booksFallbackOptions.js'
-import { getBookCard } from './lib/getBookCard.js'
+import { booksFallbackOptions } from './lib/constants/booksFallbackOptions.js'
+import { getBookCard } from './lib/mappers/getBookCard.js'
 
 const upload = multer({ dest: 'public/uploads/bookCovers/' })
 
