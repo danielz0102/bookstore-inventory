@@ -14,7 +14,12 @@ const upload = multer({ dest: 'public/uploads/bookCovers/' })
 class BooksController {
   renderBooksPage = asyncHandler(async (req, res) => {
     const search = req.query.search ?? ''
-    const modelBooks = await BooksModel.searchByTitleOrAuthor(search)
+    const page = Number(req.query.page) || 1
+    const limit = 30
+    const [modelBooks, totalBooks] = await Promise.all([
+      BooksModel.searchByTitleOrAuthor(search, limit, page),
+      BooksModel.countByTitleOrAuthor(search),
+    ])
     const books = modelBooks.map(getBookCard)
     const dbIsEmpty = modelBooks.length === 0 && search === ''
     const fallback = dbIsEmpty
@@ -23,12 +28,15 @@ class BooksController {
           ...booksFallbackOptions,
           description: 'No books found',
         }
-
+    const totalPages = Math.ceil(totalBooks / limit)
     res.render('books/pages/main', {
       title: 'Books',
       books,
       fallback,
       search,
+      page,
+      totalPages,
+      totalBooks,
     })
   })
 

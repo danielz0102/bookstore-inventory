@@ -1,0 +1,24 @@
+<style>
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .page-item.active .link {
+    font-weight: bold;
+    color: var(--foreground);
+  }
+</style>
+
+<footer>
+  <nav>
+    <ul class="pagination">
+      <% for (let i = 1; i <= totalPages; i++) { %>
+      <li class="page-item <%= i === page ? 'active' : '' %>">
+        <a class="link" href="?search=<%= search %>&page=<%= i %>"><%= i %></a>
+      </li>
+      <% } %>
+    </ul>
+  </nav>
+</footer>

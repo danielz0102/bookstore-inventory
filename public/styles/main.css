@@ -21,12 +21,10 @@ body {
 }
 
 .link {
-  --foreground: var(--primary);
-
   display: flex;
   text-decoration: none;
   gap: calc(var(--spacing) / 4);
-  color: var(--foreground);
+  color: var(--primary);
   position: relative;
 
   &:hover {
@@ -43,7 +41,7 @@ body {
     content: '';
     width: 0;
     height: 1px;
-    background-color: var(--foreground);
+    background-color: var(--primary);
     z-index: 1;
   }
 }
