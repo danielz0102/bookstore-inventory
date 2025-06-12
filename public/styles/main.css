@@ -54,3 +54,7 @@ body {
   gap: var(--spacing);
   list-style: none;
 }
+
+svg {
+  flex-shrink: 0;
+}

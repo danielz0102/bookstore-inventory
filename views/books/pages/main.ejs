@@ -13,6 +13,7 @@
   .actions {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: var(--spacing);
 
     & > search {
@@ -26,7 +27,11 @@
   }
 </style>
 
-<% const searchOptions = { action: '/books', label: 'Search by title or author', placeholder: 'Search books...', } %>
+<% const searchOptions = { 
+  action: '/books', 
+  label: 'Search by title or author', 
+  placeholder: 'Search books...'
+} %>
 
 <main>
   <h1 class="title">Books</h1>
