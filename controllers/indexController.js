@@ -12,5 +12,6 @@ export const renderIndexPage = asyncHandler(async (req, res) => {
     section: 'Last books added',
     books: lastBooksMapped,
     fallback: booksFallbackOptions,
+    stylesheet: 'index.css',
   })
 })

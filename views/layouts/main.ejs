@@ -6,6 +6,12 @@
     <title><%= title %></title>
     <link rel="stylesheet" href="/styles/reset.css" />
     <link rel="stylesheet" href="/styles/main.css" />
+    <% if (locals.stylesheet) { %>
+    <link rel="stylesheet" href="/styles/<%= stylesheet %>" />
+    <% } %>
+    <% if (locals.script) { %>
+    <script src="/scripts/<%= script %>" defer></script>
+    <% } %>
   </head>
   <body>
     <%- include('../partials/navbar') %>

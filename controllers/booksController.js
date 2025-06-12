@@ -37,6 +37,7 @@ class BooksController {
       page,
       totalPages,
       totalBooks,
+      stylesheet: 'books/main.css',
     })
   })
 
@@ -118,6 +119,7 @@ class BooksController {
         publishedDate: formatDate(book.published_date),
       },
       genres: genresNames,
+      stylesheet: 'books/detail.css',
     })
   })
 

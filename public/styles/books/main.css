@@ -1,0 +1,27 @@
+main {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing);
+  gap: var(--spacing);
+}
+
+h1 {
+  text-align: center;
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing);
+
+  & > search {
+    flex: 1;
+  }
+
+  & > .link {
+    align-self: flex-end;
+    margin-bottom: 8px;
+  }
+}
