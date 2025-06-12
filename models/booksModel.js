@@ -11,11 +11,6 @@ class BooksModel {
     const { rows } = await handleDbError(() =>
       db.query('SELECT * FROM books WHERE id = $1', [id]),
     )
-
-    if (rows.length === 0) {
-      return false
-    }
-
     return rows[0]
   }
 

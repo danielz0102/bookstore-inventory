@@ -15,7 +15,7 @@ class BooksController {
   renderBooksPage = asyncHandler(async (req, res) => {
     const search = req.query.search ?? ''
     const page = Number(req.query.page) || 1
-    const limit = 30
+    const limit = 18
     const [modelBooks, totalBooks] = await Promise.all([
       BooksModel.searchByTitleOrAuthor(search, limit, page),
       BooksModel.countByTitleOrAuthor(search),
@@ -94,7 +94,7 @@ class BooksController {
     const bookId = Number(req.params.id)
     const book = await BooksModel.getById(bookId)
 
-    if (book === false) {
+    if (!book) {
       throw new NotFoundError(
         `Book with ID ${bookId} not found`,
         'Book not found',
@@ -102,11 +102,22 @@ class BooksController {
     }
 
     const genres = await GenresModel.getByBookId(book.id)
+    const genresNames = genres.map((genre) => genre.name)
+    const formatDate = (date) => {
+      return new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+    }
 
     res.render('books/pages/detail', {
       title: book.name,
-      book,
-      genres,
+      book: {
+        ...book,
+        publishedDate: formatDate(book.published_date),
+      },
+      genres: genresNames,
     })
   })
 

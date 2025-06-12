@@ -1,46 +1,275 @@
+<style>
+  main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+    padding-top: var(--spacing);
+
+    & .title {
+      text-align: center;
+    }
+
+    & h2 {
+      font-weight: bold;
+    }
+  }
+
+  .book-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .book-cover {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) / 2);
+
+    & img {
+      width: 100vw;
+      max-height: 520px;
+      object-fit: contain;
+    }
+
+    & figcaption {
+      text-align: center;
+      color: var(--foreground-dark);
+      font-weight: bold;
+    }
+  }
+
+  .description {
+    padding-inline: var(--spacing);
+  }
+
+  .book-details {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: calc(var(--spacing) * 3);
+    background-color: var(--background-light);
+    padding: 32px;
+  }
+
+  .book-details__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--spacing) / 4);
+
+    & h3 {
+      font-weight: bold;
+    }
+
+    & p {
+      font-size: 0.85rem;
+    }
+
+    & svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .genres {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--spacing) / 2);
+
+    & ul {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 300px;
+      gap: calc(var(--spacing) / 2);
+      list-style: none;
+    }
+  }
+
+  .genre {
+    background-color: var(--background-light);
+    font-size: 0.9rem;
+    padding: 4px 16px;
+    border-radius: 16px;
+  }
+
+  .fallback {
+    font-style: italic;
+  }
+
+  footer {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing);
+    padding: var(--spacing);
+  }
+
+  .danger-btn {
+    display: flex;
+    gap: 4px;
+    background: transparent;
+    color: var(--danger);
+    padding: 4px 16px 4px 12px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  .primary-btn {
+    display: flex;
+    gap: 4px;
+    background-color: var(--primary);
+    color: var(--background);
+    padding: 4px 16px 4px 12px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+</style>
+
 <main>
-  <h1><%= book.title %></h1>
-  <img
-    width="200"
-    height="200"
-    src="<%= book.cover_path %>"
-    alt="Cover image of <%= book.title %>"
-  />
-  <p>
-    <strong>Author:</strong>
-    <%= book.author %>
-  </p>
-  <p>
-    <strong>Description:</strong>
-    <%= book.description %>
-  </p>
-  <p>
-    <strong>Published:</strong>
-    <%= book.published_date %>
-  </p>
-  <p>
-    <strong>Pages:</strong>
-    <%= book.pages %>
-  </p>
-  <p>
-    <strong>ISBN:</strong>
-    <%= book.isbn %>
-  </p>
-  <p>
-    <strong>Genres:</strong>
-  </p>
-  <ul>
-    <% if (genres.length === 0) { %>
-    <li>No genres yet</li>
-    <% } else { %>
-    <% genres.forEach((genre) => { %>
-    <li><%= genre.name %></li>
-    <% }) %>
-    <% } %>
+  <header class="book-header">
+    <h1 class="title"><%= book.title %></h1>
+    <figure class="book-cover">
+      <img
+        src="<%= book.cover_path %>"
+        alt="Cover image of <%= book.title %>"
+      />
+      <figcaption>
+        <p>
+          <small
+            >By
+            <%= book.author %></small
+          >
+        </p>
+        <p>
+          <small><%= book.publishedDate %></small>
+        </p>
+      </figcaption>
+    </figure>
+  </header>
+
+  <p class="description"><%= book.description %></p>
+
+  <ul class="book-details">
+    <li class="book-details__item">
+      <h3>Pages</h3>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+        <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+        <path d="M3 6l0 13" />
+        <path d="M12 6l0 13" />
+        <path d="M21 6l0 13" />
+      </svg>
+      <p><%= book.pages %></p>
+    </li>
+    <li class="book-details__item">
+      <h3>ISBN</h3>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M4 7v-1a2 2 0 0 1 2 -2h2" />
+        <path d="M4 17v1a2 2 0 0 0 2 2h2" />
+        <path d="M16 4h2a2 2 0 0 1 2 2v1" />
+        <path d="M16 20h2a2 2 0 0 0 2 -2v-1" />
+        <path d="M5 11h1v2h-1z" />
+        <path d="M10 11l0 2" />
+        <path d="M14 11h1v2h-1z" />
+        <path d="M19 11l0 2" />
+      </svg>
+      <p><%= book.isbn %></p>
+    </li>
   </ul>
-  <form action="/books/delete/<%= book.id %>" method="post">
-    <button>Delete</button>
-  </form>
-  <a href="/books/update/<%= book.id %>">Update</a>
-  <a href="/books">Back to Books</a>
+
+  <section class="genres">
+    <h2>Genres</h2>
+    <ul>
+      <% if (genres.length === 0) { %>
+      <li class="fallback">No genres yet</li>
+      <% } else { %>
+      <% genres.forEach((genre) => { %>
+      <li class="genre"><%= genre %></li>
+      <% }) %>
+      <% } %>
+    </ul>
+  </section>
+
+  <footer>
+    <form action="/books/delete/<%= book.id %>" method="post">
+      <button class="danger-btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="icon icon-tabler icons-tabler-outline icon-tabler-trash"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M4 7l16 0" />
+          <path d="M10 11l0 6" />
+          <path d="M14 11l0 6" />
+          <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+          <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+        </svg>
+        Delete
+      </button>
+    </form>
+    <a class="primary-btn" href="/books/update/<%= book.id %>">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon icon-tabler icons-tabler-outline icon-tabler-edit"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+        <path
+          d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"
+        />
+        <path d="M16 5l3 3" />
+      </svg>
+      Update
+    </a>
+  </footer>
 </main>
