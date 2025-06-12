@@ -1,7 +1,9 @@
 :root {
   --foreground: #f0f0f0;
   --background: #1d1c1c;
+  --background-light: #444444;
   --spacing: 16px;
+  --primary: #83bee8;
 }
 
 body {
@@ -19,7 +21,7 @@ body {
 }
 
 .link {
-  --foreground: #83bee8;
+  --foreground: var(--primary);
 
   display: flex;
   text-decoration: none;
@@ -48,7 +50,7 @@ body {
 
 .book-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: var(--spacing);
   list-style: none;
 }

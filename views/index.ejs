@@ -28,11 +28,7 @@
   <% } else { %>
   <section>
     <h2><%= section %></h2>
-    <ul class="book-list">
-      <% books.forEach(book => { %>
-      <%- include('partials/bookCard', { book }) %>
-      <% }) %>
-    </ul>
+    <%- include('partials/bookList', { books }) %>
   </section>
   <% } %>
 </main>

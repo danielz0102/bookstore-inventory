@@ -13,13 +13,22 @@ const upload = multer({ dest: 'public/uploads/bookCovers/' })
 
 class BooksController {
   renderBooksPage = asyncHandler(async (req, res) => {
-    const modelBooks = await BooksModel.getPage(30)
+    const search = req.query.search ?? ''
+    const modelBooks = await BooksModel.searchByTitleOrAuthor(search)
     const books = modelBooks.map(getBookCard)
+    const dbIsEmpty = modelBooks.length === 0 && search === ''
+    const fallback = dbIsEmpty
+      ? booksFallbackOptions
+      : {
+          ...booksFallbackOptions,
+          description: 'No books found',
+        }
 
     res.render('books/index', {
       title: 'Books',
       books,
-      fallback: booksFallbackOptions,
+      fallback,
+      search: search,
     })
   })
 

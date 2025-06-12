@@ -2,6 +2,6 @@
 
 ## TODO for books page
 
-- [ ] Filter by title
-- [ ] Filter by authors
+- [x] Filter by title
+- [x] Filter by authors
 - [ ] Lazy load with infinite scroll

@@ -1,0 +1,11 @@
+<style>
+  ul {
+    list-style-type: none;
+  }
+</style>
+
+<ul class="book-list">
+  <% books.forEach(book => { %>
+  <%- include('bookCard', { book }) %>
+  <% }) %>
+</ul>
