@@ -39,7 +39,7 @@ body {
 
   &::after {
     position: absolute;
-    bottom: 0px;
+    bottom: -2px;
     content: '';
     width: 0;
     height: 1px;
