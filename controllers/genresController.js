@@ -5,11 +5,11 @@ import { NotFoundError } from '../lib/errors/NotFoundError.js'
 class GenresController {
   renderGenresPage = asyncHandler(async (req, res) => {
     const genres = await GenresModel.getAll()
-    res.render('genres/index', { title: 'Genres', genres })
+    res.render('genres/pages/main', { title: 'Genres', genres })
   })
 
   renderAddGenrePage = asyncHandler(async (req, res) => {
-    res.render('genres/add', { title: 'Add a new genre' })
+    res.render('genres/pages/add', { title: 'Add a new genre' })
   })
 
   postGenre = asyncHandler(async (req, res) => {
@@ -29,7 +29,7 @@ class GenresController {
       )
     }
 
-    res.render('genres/detail', { title: genre.name, genre })
+    res.render('genres/pages/detail', { title: genre.name, genre })
   })
 
   delete = asyncHandler(async (req, res) => {

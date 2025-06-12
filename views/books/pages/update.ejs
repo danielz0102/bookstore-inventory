@@ -5,7 +5,7 @@
   </h1>
 
   <% if (locals.errors) { %>
-  <%- include('partials/errors', { errors }) %>
+  <%- include('../../partials/errors', { errors }) %>
   <% } %>
 
   <form action="/books/update/<%= book.id %>" method="POST">

@@ -13,13 +13,13 @@
 
 <main>
   <h1 class="title">Books</h1>
-  <%- include('../partials/search', { 
+  <%- include('../../partials/search', { 
     action: '/books', 
     label: 'Search by title or author', 
     placeholder: 'Search books...',
   }) %>
   <% if (books.length === 0) { %>
-  <%- include('../partials/empty', { fallback }) %>
+  <%- include('../../partials/empty', { fallback }) %>
   <% } else { %>
   <%- include('../partials/bookList', { books }) %>
   <% } %>

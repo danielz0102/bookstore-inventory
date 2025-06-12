@@ -24,7 +24,7 @@ class BooksController {
           description: 'No books found',
         }
 
-    res.render('books/index', {
+    res.render('books/pages/main', {
       title: 'Books',
       books,
       fallback,
@@ -34,7 +34,7 @@ class BooksController {
 
   renderAddBookPage = asyncHandler(async (req, res) => {
     const genres = await GenresModel.getPage(10)
-    res.render('books/add', { title: 'Add a new book', genres })
+    res.render('books/pages/add', { title: 'Add a new book', genres })
   })
 
   postBook = [
@@ -46,7 +46,7 @@ class BooksController {
       if (!errors.isEmpty()) {
         const genres = await GenresModel.getPage(10)
 
-        return res.render('books/add', {
+        return res.render('books/pages/add', {
           title: 'Add a new book',
           errors: errors.array(),
           oldData: req.body,
@@ -95,7 +95,7 @@ class BooksController {
 
     const genres = await GenresModel.getByBookId(book.id)
 
-    res.render('books/detail', {
+    res.render('books/pages/detail', {
       title: book.name,
       book,
       genres,
@@ -120,7 +120,7 @@ class BooksController {
     }
 
     const genres = await GenresModel.getPage(10)
-    res.render('books/update', { title: 'Update book', book, genres })
+    res.render('books/pages/update', { title: 'Update book', book, genres })
   })
 
   updateBook = [
@@ -133,7 +133,7 @@ class BooksController {
         const book = await BooksModel.getById(bookId)
         const genres = await GenresModel.getPage(10)
 
-        return res.render('books/update', {
+        return res.render('books/pages/update', {
           title: 'Update book',
           errors: errors.array(),
           book,
