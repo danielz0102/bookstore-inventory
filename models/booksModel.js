@@ -98,9 +98,10 @@ class BooksModel {
     return rows
   }
 
-  async searchByTitleOrAuthor(term) {
-    const query = 'SELECT * FROM books WHERE title ILIKE $1 OR author ILIKE $1'
-    const values = [`%${term}%`]
+  async searchByTitleOrAuthor(term, limit = 30, offset = 0) {
+    const query =
+      'SELECT * FROM books WHERE title ILIKE $1 OR author ILIKE $1 ORDER BY id LIMIT $2 OFFSET $3'
+    const values = [`%${term}%`, limit, offset]
     const { rows } = await handleDbError(() => db.query(query, values))
     return rows
   }

@@ -28,7 +28,7 @@ class BooksController {
       title: 'Books',
       books,
       fallback,
-      search: search,
+      search,
     })
   })
 
