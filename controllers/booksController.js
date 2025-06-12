@@ -6,26 +6,43 @@ import BooksModel from '../models/booksModel.js'
 import GenresModel from '../models/genresModel.js'
 import { NotFoundError } from '../lib/errors/NotFoundError.js'
 import { validateBook } from '../lib/validations/bookValidation.js'
-import { booksFallbackOptions } from '../lib/constants/booksFallbackOptions.js'
-import { getBookCard } from './lib/getBookCard.js'
+import { booksFallbackOptions } from './lib/constants/booksFallbackOptions.js'
+import { getBookCard } from './lib/mappers/getBookCard.js'
 
 const upload = multer({ dest: 'public/uploads/bookCovers/' })
 
 class BooksController {
   renderBooksPage = asyncHandler(async (req, res) => {
-    const modelBooks = await BooksModel.getPage(30)
+    const search = req.query.search ?? ''
+    const page = Number(req.query.page) || 1
+    const limit = 30
+    const [modelBooks, totalBooks] = await Promise.all([
+      BooksModel.searchByTitleOrAuthor(search, limit, page),
+      BooksModel.countByTitleOrAuthor(search),
+    ])
     const books = modelBooks.map(getBookCard)
-
-    res.render('books/index', {
+    const dbIsEmpty = modelBooks.length === 0 && search === ''
+    const fallback = dbIsEmpty
+      ? booksFallbackOptions
+      : {
+          ...booksFallbackOptions,
+          description: 'No books found',
+        }
+    const totalPages = Math.ceil(totalBooks / limit)
+    res.render('books/pages/main', {
       title: 'Books',
       books,
-      fallback: booksFallbackOptions,
+      fallback,
+      search,
+      page,
+      totalPages,
+      totalBooks,
     })
   })
 
   renderAddBookPage = asyncHandler(async (req, res) => {
     const genres = await GenresModel.getPage(10)
-    res.render('books/add', { title: 'Add a new book', genres })
+    res.render('books/pages/add', { title: 'Add a new book', genres })
   })
 
   postBook = [
@@ -37,7 +54,7 @@ class BooksController {
       if (!errors.isEmpty()) {
         const genres = await GenresModel.getPage(10)
 
-        return res.render('books/add', {
+        return res.render('books/pages/add', {
           title: 'Add a new book',
           errors: errors.array(),
           oldData: req.body,
@@ -86,7 +103,7 @@ class BooksController {
 
     const genres = await GenresModel.getByBookId(book.id)
 
-    res.render('books/detail', {
+    res.render('books/pages/detail', {
       title: book.name,
       book,
       genres,
@@ -111,7 +128,7 @@ class BooksController {
     }
 
     const genres = await GenresModel.getPage(10)
-    res.render('books/update', { title: 'Update book', book, genres })
+    res.render('books/pages/update', { title: 'Update book', book, genres })
   })
 
   updateBook = [
@@ -124,7 +141,7 @@ class BooksController {
         const book = await BooksModel.getById(bookId)
         const genres = await GenresModel.getPage(10)
 
-        return res.render('books/update', {
+        return res.render('books/pages/update', {
           title: 'Update book',
           errors: errors.array(),
           book,

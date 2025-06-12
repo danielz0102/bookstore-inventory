@@ -97,6 +97,23 @@ class BooksModel {
     const { rows } = await handleDbError(() => db.query(query, values))
     return rows
   }
+
+  async searchByTitleOrAuthor(term, limit = 30, page = 1) {
+    const offset = (page - 1) * limit
+    const query =
+      'SELECT * FROM books WHERE title ILIKE $1 OR author ILIKE $1 ORDER BY id LIMIT $2 OFFSET $3'
+    const values = [`%${term}%`, limit, offset]
+    const { rows } = await handleDbError(() => db.query(query, values))
+    return rows
+  }
+
+  async countByTitleOrAuthor(term = '') {
+    const query =
+      'SELECT COUNT(*) FROM books WHERE title ILIKE $1 OR author ILIKE $1'
+    const values = [`%${term}%`]
+    const { rows } = await handleDbError(() => db.query(query, values))
+    return Number(rows[0].count)
+  }
 }
 
 export default new BooksModel()

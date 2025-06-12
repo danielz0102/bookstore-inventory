@@ -1,7 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import BooksModel from '../models/booksModel.js'
-import { booksFallbackOptions } from '../lib/constants/booksFallbackOptions.js'
-import { getBookCard } from './lib/getBookCard.js'
+import { booksFallbackOptions } from './lib/constants/booksFallbackOptions.js'
+import { getBookCard } from './lib/mappers/getBookCard.js'
 
 export const renderIndexPage = asyncHandler(async (req, res) => {
   const lastBooks = await BooksModel.getLast(9)

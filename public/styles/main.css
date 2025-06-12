@@ -1,7 +1,9 @@
 :root {
   --foreground: #f0f0f0;
   --background: #1d1c1c;
+  --background-light: #444444;
   --spacing: 16px;
+  --primary: #83bee8;
 }
 
 body {
@@ -19,12 +21,10 @@ body {
 }
 
 .link {
-  --foreground: #83bee8;
-
   display: flex;
   text-decoration: none;
   gap: calc(var(--spacing) / 4);
-  color: var(--foreground);
+  color: var(--primary);
   position: relative;
 
   &:hover {
@@ -37,18 +37,22 @@ body {
 
   &::after {
     position: absolute;
-    bottom: 0px;
+    bottom: -2px;
     content: '';
     width: 0;
     height: 1px;
-    background-color: var(--foreground);
+    background-color: var(--primary);
     z-index: 1;
   }
 }
 
 .book-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: var(--spacing);
   list-style: none;
+}
+
+svg {
+  flex-shrink: 0;
 }
