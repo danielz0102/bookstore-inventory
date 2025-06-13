@@ -2,7 +2,7 @@ main {
   display: flex;
   flex-direction: column;
   gap: var(--spacing);
-  padding-top: var(--spacing);
+  padding-block: var(--spacing);
 
   & .title {
     text-align: center;
@@ -41,13 +41,19 @@ main {
   padding-inline: var(--spacing);
 }
 
+.book-info {
+  background-color: var(--background-light);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing) * 2);
+  padding-block: calc(var(--spacing) * 2);
+}
+
 .book-details {
   list-style: none;
   display: flex;
   justify-content: center;
   gap: calc(var(--spacing) * 3);
-  background-color: var(--background-light);
-  padding: 32px;
 }
 
 .book-details__item {
@@ -87,7 +93,7 @@ main {
 }
 
 .genre {
-  background-color: var(--background-light);
+  background-color: var(--background);
   font-size: 0.9rem;
   padding: 4px 16px;
   border-radius: 16px;

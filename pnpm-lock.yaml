@@ -20,9 +20,6 @@ importers:
       express-async-handler:
         specifier: ^1.2.0
         version: 1.2.0
-      express-ejs-layouts:
-        specifier: ^2.5.1
-        version: 2.5.1
       express-validator:
         specifier: ^7.2.1
         version: 7.2.1
@@ -322,9 +319,6 @@ packages:
 
   express-async-handler@1.2.0:
     resolution: {integrity: sha512-rCSVtPXRmQSW8rmik/AIb2P0op6l7r1fMW538yyvTMltCO4xQEWMmobfrIxN2V1/mVrgxB8Az3reYF6yUZw37w==}
-
-  express-ejs-layouts@2.5.1:
-    resolution: {integrity: sha512-IXROv9n3xKga7FowT06n1Qn927JR8ZWDn5Dc9CJQoiiaaDqbhW5PDmWShzbpAa2wjWT1vJqaIM1S6vJwwX11gA==}
 
   express-validator@7.2.1:
     resolution: {integrity: sha512-CjNE6aakfpuwGaHQZ3m8ltCG2Qvivd7RHtVMS/6nVxOM7xVGqr4bhflsm4+N5FP5zI7Zxp+Hae+9RE+o8e3ZOQ==}
@@ -1094,8 +1088,6 @@ snapshots:
   etag@1.8.1: {}
 
   express-async-handler@1.2.0: {}
-
-  express-ejs-layouts@2.5.1: {}
 
   express-validator@7.2.1:
     dependencies:

@@ -29,7 +29,7 @@ class BooksController {
           description: 'No books found',
         }
     const totalPages = Math.ceil(totalBooks / limit)
-    res.render('books/pages/main', {
+    res.render('books/pages/index', {
       title: 'Books',
       books,
       fallback,
@@ -37,7 +37,6 @@ class BooksController {
       page,
       totalPages,
       totalBooks,
-      stylesheet: 'books/main.css',
     })
   })
 
@@ -113,13 +112,12 @@ class BooksController {
     }
 
     res.render('books/pages/detail', {
-      title: book.name,
+      title: book.title,
       book: {
         ...book,
         publishedDate: formatDate(book.published_date),
       },
       genres: genresNames,
-      stylesheet: 'books/detail.css',
     })
   })
 

@@ -1,101 +1,81 @@
-<main>
-  <h1>
-    Update
-    <%= book.title %>
-  </h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../../partials/commonHeadTags') %>
+    <title><%= title %></title>
+    <script src="/scripts/validateBookForm.js" defer></script>
+  </head>
+  <body>
+    <%- include('../../partials/navbar') %>
+    <main>
+      <h1>
+        Update
+        <%= book.title %>
+      </h1>
 
-  <% if (locals.errors) { %>
-  <%- include('../../partials/errors', { errors }) %>
-  <% } %>
+      <% if (locals.errors) { %>
+      <%- include('../../partials/errors', { errors }) %>
+      <% } %>
 
-  <form action="/books/update/<%= book.id %>" method="POST">
-    <label for="title">Title <small>(required)</small></label>
-    <input
-      value="<%= book.title %>"
-      type="text"
-      id="title"
-      name="title"
-      maxlength="100"
-      required
-    />
+      <form action="/books/update/<%= book.id %>" method="POST">
+        <label for="title">Title <small>(required)</small></label>
+        <input
+          value="<%= book.title %>"
+          type="text"
+          id="title"
+          name="title"
+          maxlength="100"
+          required
+        />
 
-    <label for="author">Author <small>(required)</small></label>
-    <input
-      value="<%= book.author %>"
-      type="text"
-      id="author"
-      name="author"
-      maxlength="100"
-      required
-    />
+        <label for="author">Author <small>(required)</small></label>
+        <input
+          value="<%= book.author %>"
+          type="text"
+          id="author"
+          name="author"
+          maxlength="100"
+          required
+        />
 
-    <label for="description">Description</label>
-    <textarea id="description" name="description">
+        <label for="description">Description</label>
+        <textarea id="description" name="description">
 <%= book.description %></textarea
-    >
+        >
 
-    <label for="pages">Number of pages <small>(required)</small></label>
-    <input
-      value="<%= book.pages %>"
-      type="number"
-      id="pages"
-      name="pages"
-      min="1"
-      max="9999"
-      required
-    />
+        <label for="pages">Number of pages <small>(required)</small></label>
+        <input
+          value="<%= book.pages %>"
+          type="number"
+          id="pages"
+          name="pages"
+          min="1"
+          max="9999"
+          required
+        />
 
-    <label for="publishedDate">Published date <small>(required)</small></label>
-    <input
-      value="<%= book.published_date.toLocaleString() %>"
-      type="date"
-      id="publishedDate"
-      name="publishedDate"
-      required
-    />
+        <label for="publishedDate"
+          >Published date <small>(required)</small></label
+        >
+        <input
+          value="<%= book.published_date.toLocaleString() %>"
+          type="date"
+          id="publishedDate"
+          name="publishedDate"
+          required
+        />
 
-    <label for="isbn">ISBN</label>
-    <input
-      value="<%= book.isbn %>"
-      type="text"
-      id="isbn"
-      name="isbn"
-      maxlength="20"
-    />
+        <label for="isbn">ISBN</label>
+        <input
+          value="<%= book.isbn %>"
+          type="text"
+          id="isbn"
+          name="isbn"
+          maxlength="20"
+        />
 
-    <button type="submit">Add Book</button>
-  </form>
-</main>
-<script>
-  const form = document.querySelector('form')
-  document.getElementById('publishedDate').max = new Date()
-    .toISOString()
-    .split('T')[0]
-
-  form.addEventListener('submit', (event) => {
-    event.preventDefault()
-    const isbnInput = document.getElementById('isbn')
-    const isbnValue = isbnInput.value.trim()
-
-    if (isbnValue === '') {
-      isbnInput.setCustomValidity('')
-      return form.submit()
-    }
-
-    if (!isbnIsValid(isbnValue)) {
-      isbnInput.setCustomValidity('Please enter a valid ISBN-10 or ISBN-13.')
-      return isbnInput.reportValidity()
-    }
-
-    isbnInput.setCustomValidity('')
-    form.submit()
-  })
-
-  function isbnIsValid(str) {
-    // Regular expression to validate ISBN-10 or ISBN-13
-    const isbnRegex =
-      /^(?:ISBN(?:-1[03])?:?\s*)?(?=[-0-9 ]{10,17}$)(?:97[89][- ]?)?(?=[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$)(?:[0-9]+[- ]?){3}[0-9X]$/
-
-    return isbnRegex.test(str)
-  }
-</script>
+        <button type="submit">Add Book</button>
+      </form>
+    </main>
+  </body>
+</html>

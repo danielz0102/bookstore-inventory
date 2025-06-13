@@ -8,10 +8,9 @@ export const renderIndexPage = asyncHandler(async (req, res) => {
   const lastBooksMapped = lastBooks.map(getBookCard)
 
   res.render('index', {
-    title: 'Bookstore inventory',
+    title: 'Bookstore Inventory',
     section: 'Last books added',
     books: lastBooksMapped,
     fallback: booksFallbackOptions,
-    stylesheet: 'index.css',
   })
 })

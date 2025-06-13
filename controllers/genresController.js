@@ -5,7 +5,7 @@ import { NotFoundError } from '../lib/errors/NotFoundError.js'
 class GenresController {
   renderGenresPage = asyncHandler(async (req, res) => {
     const genres = await GenresModel.getAll()
-    res.render('genres/pages/main', { title: 'Genres', genres })
+    res.render('genres/pages/index', { title: 'Genres', genres })
   })
 
   renderAddGenrePage = asyncHandler(async (req, res) => {

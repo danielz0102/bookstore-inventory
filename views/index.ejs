@@ -1,11 +1,22 @@
-<main>
-  <h1 class="title">Bookstore Inventory</h1>
-  <% if (books.length === 0) { %>
-  <%- include('partials/empty', { fallback }) %>
-  <% } else { %>
-  <section>
-    <h2><%= section %></h2>
-    <%- include('books/partials/bookList', { books }) %>
-  </section>
-  <% } %>
-</main>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/commonHeadTags') %>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="styles/index.css" />
+  </head>
+  <body>
+    <%- include('partials/navbar') %>
+    <main>
+      <h1 class="title">Bookstore Inventory</h1>
+      <% if (books.length === 0) { %>
+      <%- include('partials/empty', { fallback }) %>
+      <% } else { %>
+      <section>
+        <h2><%= section %></h2>
+        <%- include('books/partials/bookList', { books }) %>
+      </section>
+      <% } %>
+    </main>
+  </body>
+</html>
