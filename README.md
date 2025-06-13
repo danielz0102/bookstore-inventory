@@ -1,7 +1,6 @@
 # inventory_app
 
-## TODO for books page
+## TODO for book detail page
 
-- [x] Filter by title
-- [x] Filter by authors
-- [x] Pagination
+- [ ] Add modal update book (replace update page)
+- [ ] Add modal to confirm delete book
