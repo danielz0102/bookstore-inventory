@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { validateBook } from '../lib/validations/bookValidation.js'
 import BooksController from '../controllers/booksController.js'
 
 export const booksRouter = Router()
@@ -8,5 +9,4 @@ booksRouter.get('/add', BooksController.renderAddBookPage)
 booksRouter.post('/add', BooksController.postBook)
 booksRouter.post('/delete/:id', BooksController.delete)
 booksRouter.get('/:id', BooksController.renderBookDetailPage)
-booksRouter.get('/update/:id', BooksController.renderUpdatePage)
-booksRouter.post('/update/:id', BooksController.updateBook)
+booksRouter.post('/update/:id', validateBook, BooksController.updateBook)

@@ -127,46 +127,11 @@ class BooksController {
     res.redirect('/books')
   })
 
-  renderUpdatePage = asyncHandler(async (req, res) => {
+  updateBook = asyncHandler(async (req, res) => {
     const bookId = Number(req.params.id)
-    const book = await BooksModel.getById(bookId)
-
-    if (book === false) {
-      throw new NotFoundError(
-        `Book with ID ${bookId} not found`,
-        'Book not found',
-      )
-    }
-
-    const genres = await GenresModel.getPage(10)
-    res.render('books/pages/update', { title: 'Update book', book, genres })
+    //TODO: Implement book update logic
+    res.redirect(`/books/${bookId}`)
   })
-
-  updateBook = [
-    validateBook,
-    asyncHandler(async (req, res) => {
-      const errors = validationResult(req)
-
-      if (!errors.isEmpty()) {
-        const bookId = Number(req.params.id)
-        const book = await BooksModel.getById(bookId)
-        const genres = await GenresModel.getPage(10)
-
-        return res.render('books/pages/update', {
-          title: 'Update book',
-          errors: errors.array(),
-          book,
-          genres,
-        })
-      }
-
-      const bookId = Number(req.params.id)
-      const book = matchedData(req)
-
-      await BooksModel.update(bookId, book)
-      res.redirect(`/books/${bookId}`)
-    }),
-  ]
 }
 
 export default new BooksController()

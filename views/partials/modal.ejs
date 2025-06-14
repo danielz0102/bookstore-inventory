@@ -1,12 +1,16 @@
 <dialog class="modal" id="<%= id %>">
   <div class="modal-content">
     <h3><%= title %></h3>
+    <% if (locals.message) { %>
     <p><%= message %></p>
+    <% } else { %>
+    <%- include(`../${content}`) %>
+    <% } %>
     <div class="modal-btns">
-      <button class="<%= btn1.class %>" id="<%= btn1.id %>">
+      <button class="<%= btn1.class %>" data-action="<%= btn1.dataAction %>">
         <%= btn1.text %>
       </button>
-      <button class="<%= btn2.class %>" id="<%= btn2.id %>">
+      <button class="<%= btn2.class %>" data-action="<%= btn2.dataAction %>">
         <%= btn2.text %>
       </button>
     </div>

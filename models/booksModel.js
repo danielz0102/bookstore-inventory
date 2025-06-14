@@ -65,10 +65,27 @@ class BooksModel {
   }
 
   async update(id, book) {
-    const { title, author, description, pages, publishedDate } = book
+    const {
+      title,
+      author,
+      description,
+      pages,
+      publishedDate,
+      isbn,
+      cover_path,
+    } = book
     const query =
-      'UPDATE books SET title = $1, author = $2, description = $3, pages = $4, published_date = $5 WHERE id = $6'
-    const values = [title, author, description, pages, publishedDate, id]
+      'UPDATE books SET title = $1, author = $2, description = $3, pages = $4, published_date = $5, isbn = $6, cover_path = $7 WHERE id = $8'
+    const values = [
+      title,
+      author,
+      description,
+      pages,
+      publishedDate,
+      isbn,
+      cover_path,
+      id,
+    ]
     const { rowCount } = await handleDbError(() => db.query(query, values))
 
     return rowCount > 0
