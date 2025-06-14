@@ -1,0 +1,92 @@
+<form action="<%= action %>" method="post" id="bookForm">
+  <label class="label-image" for="cover">
+    <span class="sr-only">Upload a cover image</span>
+    <picture>
+      <img
+        class="cover-preview"
+        src="<%= locals.book.cover_path %>"
+        alt="Cover image of <%= book.title %>"
+      />
+    </picture>
+    <%- include('../../partials/icons/upload') %>
+    <input
+      class="sr-only"
+      type="file"
+      name="cover"
+      id="cover"
+      accept="image/jpeg,image/jpg,image/png,image/webp,image/avif"
+      value="<%= locals.book.cover_path %>"
+    />
+  </label>
+  <div class="form-field-group">
+    <div class="form-field">
+      <label for="title">Title</label>
+      <input
+        type="text"
+        name="title"
+        id="title"
+        value="<%= locals.book.title %>"
+        required
+        placeholder="Enter the book title"
+      />
+    </div>
+    <div class="form-field">
+      <label for="author">Author</label>
+      <input
+        type="text"
+        name="author"
+        id="author"
+        value="<%= locals.book.author %>"
+        required
+        placeholder="Enter the author's name"
+      />
+    </div>
+  </div>
+  <div class="form-field">
+    <label for="description">Description</label>
+    <textarea
+      name="description"
+      id="description"
+      rows="5"
+      placeholder="Enter a book description"
+    >
+<%= locals.book.description %></textarea
+    >
+  </div>
+  <div class="form-field-group">
+    <div class="form-field">
+      <label for="pages">Pages</label>
+      <input
+        type="number"
+        name="pages"
+        id="pages"
+        value="<%= locals.book.pages %>"
+        min="1"
+        max="10000"
+        required
+        placeholder="Enter the number of pages"
+      />
+    </div>
+    <div class="form-field">
+      <label for="isbn">ISBN</label>
+      <input
+        type="text"
+        name="isbn"
+        id="isbn"
+        value="<%= locals.book.isbn %>"
+        placeholder="Enter the ISBN number"
+      />
+    </div>
+  </div>
+  <div class="form-field">
+    <label for="publishedDate">Published Date</label>
+    <input
+      type="date"
+      name="publishedDate"
+      id="publishedDate"
+      required
+      value="<%= locals.book.publishedDate ? new Date(locals.book.publishedDate).toISOString().slice(0, 10) : '' %>"
+      max="<%= new Date().toISOString().slice(0, 10) %>"
+    />
+  </div>
+</form>

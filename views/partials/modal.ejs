@@ -4,13 +4,17 @@
     <% if (locals.message) { %>
     <p><%= message %></p>
     <% } else { %>
-    <%- include(`../${content}`) %>
+    <%- include(`../${content.include}`, content.locals) %>
     <% } %>
     <div class="modal-btns">
       <button class="<%= btn1.class %>" data-action="<%= btn1.dataAction %>">
         <%= btn1.text %>
       </button>
-      <button class="<%= btn2.class %>" data-action="<%= btn2.dataAction %>">
+      <button
+        class="<%= btn2.class %>"
+        data-action="<%= btn2.dataAction %>"
+        form="<%= btn2.form %>"
+      >
         <%= btn2.text %>
       </button>
     </div>

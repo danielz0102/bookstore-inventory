@@ -5,8 +5,10 @@
     <title><%= title %></title>
     <link rel="stylesheet" href="/styles/books/detail.css" />
     <link rel="stylesheet" href="/styles/partials/modal.css" />
+    <link rel="stylesheet" href="/styles/partials/form.css" />
     <script type="module" src="/scripts/partials/modal.js" defer></script>
     <script type="module" src="/scripts/books/bookDetail.js" defer></script>
+    <script type="module" src="/scripts/books/bookForm.js" defer></script>
   </head>
   <body>
     <%- include('../../partials/navbar') %>
@@ -93,14 +95,20 @@
     <%- include('../../partials/modal', { 
       id: 'updateBookModal', 
       title: 'Update Book', 
-      content: 'books/partials/updateBookForm',
+      content: {
+        include: 'books/partials/bookForm',
+        locals: {
+          action: `/books/update/${book.id}`,
+        }
+      },
       btn1: {
         dataAction: 'cancel',
-        text: 'Cancel',
-        class: 'btn btn--danger'
+        text: 'Go back',
+        class: 'btn btn--secondary'
       },
       btn2: {
         dataAction: 'confirm',
+        form: 'bookForm',
         text: 'Save changes',
         class: 'btn'
       }

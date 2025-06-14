@@ -10,4 +10,4 @@ setupModal(confirmDeleteModal, deleteBookBtn, () => {
 const updateBookModal = document.querySelector('#updateBookModal')
 const updateBookBtn = document.querySelector('#updateBookBtn')
 
-setupModal(updateBookModal, updateBookBtn, () => {})
+setupModal(updateBookModal, updateBookBtn)
