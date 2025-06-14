@@ -1,0 +1,12 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding-block: var(--spacing);
+  list-style: none;
+}
+
+.page-item.active .link {
+  font-weight: bold;
+  color: var(--foreground);
+}

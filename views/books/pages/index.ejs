@@ -3,7 +3,16 @@
   <head>
     <%- include('../../partials/commonHeadTags') %>
     <title><%= title %></title>
-    <link rel="stylesheet" href="/styles/books/index.css" />
+    <link rel="stylesheet" href="styles/books/index.css" />
+    <link rel="stylesheet" href="styles/partials/search.css" />
+
+    <% if (books.length === 0) { %>
+    <link rel="stylesheet" href="styles/partials/empty-section.css" />
+    <% } else { %>
+    <link rel="stylesheet" href="styles/books/partials/book-list.css" />
+    <link rel="stylesheet" href="styles/books/partials/book-card.css" />
+    <link rel="stylesheet" href="styles/partials/pagination.css" />
+    <% } %>
   </head>
   <body>
     <%- include('../../partials/navbar') %>
@@ -39,7 +48,9 @@
       <% } else { %>
       <%- include('../partials/bookList', { books }) %>
       <% } %>
-      <%- include('../../partials/pagination', { page, totalPages, search }) %>
     </main>
+    <% if (books.length > 0) { %>
+    <%- include('../../partials/pagination', { page, totalPages, search }) %>
+    <% } %>
   </body>
 </html>

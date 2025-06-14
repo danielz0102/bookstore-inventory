@@ -1,0 +1,11 @@
+.empty-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & img {
+    width: 200px;
+    height: 200px;
+  }
+}

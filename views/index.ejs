@@ -4,6 +4,13 @@
     <%- include('partials/commonHeadTags') %>
     <title><%= title %></title>
     <link rel="stylesheet" href="styles/index.css" />
+
+    <% if (books.length === 0) { %>
+    <link rel="stylesheet" href="styles/partials/empty-section.css" />
+    <% } else { %>
+    <link rel="stylesheet" href="styles/books/partials/book-list.css" />
+    <link rel="stylesheet" href="styles/books/partials/book-card.css" />
+    <% } %>
   </head>
   <body>
     <%- include('partials/navbar') %>

@@ -17,6 +17,19 @@ body {
   color: var(--foreground);
 }
 
+#navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing);
+
+  & ul {
+    display: flex;
+    gap: var(--spacing);
+    list-style: none;
+  }
+}
+
 .title {
   font-weight: bold;
   font-size: 3rem;
@@ -45,13 +58,6 @@ body {
     height: 1px;
     background-color: var(--primary);
   }
-}
-
-.book-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: var(--spacing);
-  list-style: none;
 }
 
 svg {
