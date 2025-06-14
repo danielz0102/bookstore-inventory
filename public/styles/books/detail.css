@@ -109,34 +109,3 @@ footer {
   gap: var(--spacing);
   padding: var(--spacing);
 }
-
-.danger-btn {
-  display: flex;
-  gap: 4px;
-  background: transparent;
-  color: var(--danger);
-  padding: 4px 16px 4px 12px;
-  border: none;
-  border-radius: 16px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.5;
-  }
-}
-
-.primary-btn {
-  display: flex;
-  gap: 4px;
-  background-color: var(--primary);
-  color: var(--background);
-  padding: 4px 16px 4px 12px;
-  border: none;
-  border-radius: 16px;
-  cursor: pointer;
-  text-decoration: none;
-
-  &:hover {
-    opacity: 0.5;
-  }
-}

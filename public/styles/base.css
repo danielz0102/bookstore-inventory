@@ -63,3 +63,27 @@ body {
 svg {
   flex-shrink: 0;
 }
+
+.btn {
+  --btn-bg: var(--primary);
+  --btn-fg: var(--background);
+
+  display: flex;
+  gap: 4px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  padding: 4px 16px 4px 12px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.btn--danger {
+  --btn-bg: transparent;
+  --btn-fg: var(--danger);
+}
