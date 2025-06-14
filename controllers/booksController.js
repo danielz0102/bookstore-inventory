@@ -1,15 +1,10 @@
-import multer from 'multer'
-import { validationResult, matchedData } from 'express-validator'
 import asyncHandler from 'express-async-handler'
 
 import BooksModel from '../models/booksModel.js'
 import GenresModel from '../models/genresModel.js'
 import { NotFoundError } from '../lib/errors/NotFoundError.js'
-import { validateBook } from '../lib/validations/bookValidation.js'
 import { booksFallbackOptions } from './lib/constants/booksFallbackOptions.js'
 import { getBookCard } from './lib/mappers/getBookCard.js'
-
-const upload = multer({ dest: 'public/uploads/bookCovers/' })
 
 class BooksController {
   renderBooksPage = asyncHandler(async (req, res) => {
@@ -44,51 +39,6 @@ class BooksController {
     const genres = await GenresModel.getPage(10)
     res.render('books/pages/add', { title: 'Add a new book', genres })
   })
-
-  postBook = [
-    upload.single('coverImg'),
-    validateBook,
-    asyncHandler(async (req, res) => {
-      const errors = validationResult(req)
-
-      if (!errors.isEmpty()) {
-        const genres = await GenresModel.getPage(10)
-
-        return res.render('books/pages/add', {
-          title: 'Add a new book',
-          errors: errors.array(),
-          oldData: req.body,
-          genres,
-        })
-      }
-
-      const book = matchedData(req)
-      let genresIds = []
-
-      // If just one genre was sent
-      if (typeof book.genres === 'string') {
-        genresIds.push(Number(book.genres))
-      } else if (Array.isArray(book.genres)) {
-        genresIds = book.genres.map(Number)
-      }
-
-      const modelBook = {
-        title: book.title,
-        author: book.author,
-        description: book.description,
-        pages: book.pages,
-        publishedDate: book.publishedDate,
-        isbn: book.isbn,
-        genresIds,
-        coverPath: req.file
-          ? `bookCovers/${req.file.filename}`
-          : 'initial/placeholder.webp',
-      }
-
-      await BooksModel.add(modelBook)
-      res.redirect('/books')
-    }),
-  ]
 
   renderBookDetailPage = asyncHandler(async (req, res) => {
     const bookId = Number(req.params.id)
@@ -129,7 +79,7 @@ class BooksController {
 
   updateBook = asyncHandler(async (req, res) => {
     const bookId = Number(req.params.id)
-    //TODO: Implement book update logic
+    console.log(req.body)
     res.redirect(`/books/${bookId}`)
   })
 }
