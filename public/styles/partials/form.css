@@ -29,6 +29,7 @@ form {
 
 .form-field-group {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--spacing-small);
 
   & > .form-field {
