@@ -31,6 +31,7 @@
         name="title"
         id="title"
         value="<%= locals.book.title %>"
+        maxlength="100"
         required
         placeholder="Enter the book title"
       />
@@ -42,6 +43,7 @@
         name="author"
         id="author"
         value="<%= locals.book.author %>"
+        maxlength="100"
         required
         placeholder="Enter the author's name"
       />
@@ -67,7 +69,7 @@
         id="pages"
         value="<%= locals.book.pages %>"
         min="1"
-        max="10000"
+        max="9999"
         required
         placeholder="Enter the number of pages"
       />

@@ -1,5 +1,6 @@
 import db from '../db/pool.js'
 import { handleDbError } from '../lib/errors/DatabaseError.js'
+import { DatabaseError } from '../lib/errors/DatabaseError.js'
 
 class BooksModel {
   async getAll() {
@@ -65,15 +66,23 @@ class BooksModel {
   }
 
   async update(id, book) {
+    const current = await this.getById(id)
+
+    if (!current) {
+      throw new DatabaseError(`Book with ID ${id} not found`)
+    }
+
+    // Merge current data with new data, preferring new data if present
     const {
-      title,
-      author,
-      description,
-      pages,
-      publishedDate,
-      isbn,
-      cover_path,
+      title = current.title,
+      author = current.author,
+      description = current.description,
+      pages = current.pages,
+      publishedDate = current.published_date,
+      isbn = current.isbn,
+      coverPath = current.cover_path,
     } = book
+
     const query =
       'UPDATE books SET title = $1, author = $2, description = $3, pages = $4, published_date = $5, isbn = $6, cover_path = $7 WHERE id = $8'
     const values = [
@@ -83,12 +92,11 @@ class BooksModel {
       pages,
       publishedDate,
       isbn,
-      cover_path,
+      coverPath,
       id,
     ]
-    const { rowCount } = await handleDbError(() => db.query(query, values))
 
-    return rowCount > 0
+    await handleDbError(() => db.query(query, values))
   }
 
   async delete(id) {
