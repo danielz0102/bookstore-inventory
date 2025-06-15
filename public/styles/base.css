@@ -46,6 +46,8 @@ body {
   gap: calc(var(--spacing) / 4);
   color: var(--primary);
   position: relative;
+  background: none;
+  border: none;
 
   &:hover {
     opacity: 0.5;
