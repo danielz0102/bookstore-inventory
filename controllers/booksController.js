@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler'
+import { validationResult, matchedData } from 'express-validator'
 
 import BooksModel from '../models/booksModel.js'
 import GenresModel from '../models/genresModel.js'
@@ -51,6 +52,8 @@ class BooksController {
       )
     }
 
+    console.log('Book details:', book)
+
     const genres = await GenresModel.getByBookId(book.id)
     const genresNames = genres.map((genre) => genre.name)
     const formatDate = (date) => {
@@ -77,9 +80,27 @@ class BooksController {
     res.redirect('/books')
   })
 
-  updateBook = asyncHandler(async (req, res) => {
+  update = asyncHandler(async (req, res) => {
+    const errors = validationResult(req).array()
+
+    if (errors.length > 0) {
+      // TODO: Handle validation errors
+      return res.redirect(`/books/${bookId}`)
+    }
+
     const bookId = Number(req.params.id)
-    console.log(req.body)
+    const data = matchedData(req)
+    const coverPath = req.file
+      ? `/uploads/bookCovers/${req.file.filename}`
+      : null
+
+    await BooksModel.update(bookId, {
+      ...data,
+      coverPath,
+    })
+
+    //TODO: Delete old cover if new one is uploaded
+
     res.redirect(`/books/${bookId}`)
   })
 }
