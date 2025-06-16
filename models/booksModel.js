@@ -66,22 +66,16 @@ class BooksModel {
   }
 
   async update(id, book) {
-    const current = await this.getById(id)
-
-    if (!current) {
-      throw new DatabaseError(`Book with ID ${id} not found`)
-    }
-
-    // Merge current data with new data, preferring new data if present
     const {
-      title = current.title,
-      author = current.author,
-      description = current.description,
-      pages = current.pages,
-      publishedDate = current.published_date,
-      isbn = current.isbn,
-      coverPath = current.cover_path,
+      title,
+      author,
+      description,
+      pages,
+      publishedDate,
+      isbn,
+      coverPath,
     } = book
+    const finalCoverPath = coverPath || (await this.getCoverPath(id))
 
     const query =
       'UPDATE books SET title = $1, author = $2, description = $3, pages = $4, published_date = $5, isbn = $6, cover_path = $7 WHERE id = $8'
@@ -92,7 +86,7 @@ class BooksModel {
       pages,
       publishedDate,
       isbn,
-      coverPath,
+      finalCoverPath,
       id,
     ]
 
@@ -133,6 +127,18 @@ class BooksModel {
     const values = [`%${term}%`]
     const { rows } = await handleDbError(() => db.query(query, values))
     return Number(rows[0].count)
+  }
+
+  async getCoverPath(id) {
+    const { rows } = await handleDbError(() =>
+      db.query('SELECT cover_path FROM books WHERE id = $1', [id]),
+    )
+
+    if (rows.length === 0) {
+      throw new DatabaseError(`Book with ID ${id} not found`)
+    }
+
+    return rows[0].cover_path
   }
 }
 
