@@ -58,3 +58,7 @@ form {
     outline: 2px solid var(--primary);
   }
 }
+
+.genres-list {
+  margin-inline: auto;
+}

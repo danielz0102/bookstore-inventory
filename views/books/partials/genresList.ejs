@@ -1,0 +1,9 @@
+<ul class="genres-list">
+  <% if (locals.book?.genres?.length === 0) { %>
+  <li class="fallback">No genres yet</li>
+  <% } else { %>
+  <% locals.book?.genres?.forEach((genre) => { %>
+  <li class="genre"><%= genre %></li>
+  <% }) %>
+  <% } %>
+</ul>

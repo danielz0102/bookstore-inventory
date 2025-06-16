@@ -84,15 +84,15 @@ main {
   flex-direction: column;
   align-items: center;
   gap: calc(var(--spacing) / 2);
+}
 
-  & ul {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    max-width: 300px;
-    gap: calc(var(--spacing) / 2);
-    list-style: none;
-  }
+.genres-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 300px;
+  gap: calc(var(--spacing) / 2);
+  list-style: none;
 }
 
 .genre {

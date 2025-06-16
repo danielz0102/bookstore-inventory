@@ -50,15 +50,7 @@
         </ul>
         <section class="genres">
           <h2>Genres</h2>
-          <ul>
-            <% if (genres.length === 0) { %>
-            <li class="fallback">No genres yet</li>
-            <% } else { %>
-            <% genres.forEach((genre) => { %>
-            <li class="genre"><%= genre %></li>
-            <% }) %>
-            <% } %>
-          </ul>
+          <%- include('../partials/genresList') %>
         </section>
       </section>
     </main>

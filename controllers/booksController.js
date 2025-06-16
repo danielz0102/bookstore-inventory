@@ -26,12 +26,17 @@ class BooksController {
           description: 'No books found',
         }
     const totalPages = Math.ceil(totalBooks / limit)
+
+    const allGenres = await GenresModel.getAll()
+    const allGenresNames = allGenres.map((genre) => genre.name)
+
     res.render('books/pages/index', {
       title: 'Books',
       books,
       fallback,
       search,
       page,
+      allGenres: allGenresNames,
       totalPages,
       totalBooks,
     })
@@ -48,8 +53,12 @@ class BooksController {
       )
     }
 
-    const genres = await GenresModel.getByBookId(book.id)
-    const genresNames = genres.map((genre) => genre.name)
+    const bookGenres = await GenresModel.getByBookId(book.id)
+    const bookGenresNames = bookGenres.map((genre) => genre.name)
+
+    const allGenres = await GenresModel.getAll()
+    const allGenresNames = allGenres.map((genre) => genre.name)
+
     const formatDate = (date) => {
       return new Date(date).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -63,8 +72,9 @@ class BooksController {
       book: {
         ...book,
         publishedDate: formatDate(book.published_date),
+        genres: bookGenresNames,
       },
-      genres: genresNames,
+      allGenres: allGenresNames,
     })
   })
 
