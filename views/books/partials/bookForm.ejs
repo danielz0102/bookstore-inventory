@@ -9,7 +9,7 @@
     <picture>
       <img
         class="cover-preview"
-        src="<%= locals.book?.cover_path %>"
+        src="<%= locals.book?.cover_path || 'uploads/initial/placeholder.webp' %>"
         alt="Cover image of <%= locals.book?.title %>"
       />
     </picture>

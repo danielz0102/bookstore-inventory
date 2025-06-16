@@ -17,6 +17,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: var(--spacing-tiny);
 }
 
 .book-cover {
@@ -38,7 +39,9 @@ main {
 }
 
 .description {
+  max-width: 75ch;
   padding-inline: var(--spacing);
+  margin-inline: auto;
 }
 
 .book-info {

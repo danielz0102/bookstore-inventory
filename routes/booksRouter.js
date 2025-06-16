@@ -7,7 +7,7 @@ import BooksController from '../controllers/booksController.js'
 export const booksRouter = Router()
 
 booksRouter.get('/', BooksController.renderBooksPage)
-booksRouter.get('/add', BooksController.renderAddBookPage)
+booksRouter.post('/add', coverUpload, validateBook, BooksController.add)
 booksRouter.post('/delete/:id', BooksController.delete)
 booksRouter.get('/:id', BooksController.renderBookDetailPage)
 booksRouter.post(

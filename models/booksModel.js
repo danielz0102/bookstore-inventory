@@ -50,7 +50,7 @@ class BooksModel {
     const bookId = rows[0].id
 
     // Also insert into the junction table
-    if (genresIds.length > 0) {
+    if (genresIds?.length > 0) {
       const genreValues = genresIds.map((genreId) => [bookId, genreId])
       // All values are inserted in a single query
       const valuePlaceholders = genreValues

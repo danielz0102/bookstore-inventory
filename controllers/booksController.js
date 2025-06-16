@@ -37,11 +37,6 @@ class BooksController {
     })
   })
 
-  renderAddBookPage = asyncHandler(async (req, res) => {
-    const genres = await GenresModel.getPage(10)
-    res.render('books/pages/add', { title: 'Add a new book', genres })
-  })
-
   renderBookDetailPage = asyncHandler(async (req, res) => {
     const bookId = Number(req.params.id)
     const book = await BooksModel.getById(bookId)
@@ -52,8 +47,6 @@ class BooksController {
         'Book not found',
       )
     }
-
-    console.log('Book details:', book)
 
     const genres = await GenresModel.getByBookId(book.id)
     const genresNames = genres.map((genre) => genre.name)
@@ -73,6 +66,27 @@ class BooksController {
       },
       genres: genresNames,
     })
+  })
+
+  add = asyncHandler(async (req, res) => {
+    const errors = validationResult(req).array()
+
+    if (errors.length > 0) {
+      console.error({ errors })
+      throw new ClientError('Validation error', 'Form data is invalid')
+    }
+
+    const data = matchedData(req)
+    const coverPath = req.file
+      ? `/uploads/bookCovers/${req.file.filename}`
+      : null
+
+    const bookId = await BooksModel.add({
+      ...data,
+      coverPath,
+    })
+
+    res.redirect(`/books/${bookId}`)
   })
 
   delete = asyncHandler(async (req, res) => {
