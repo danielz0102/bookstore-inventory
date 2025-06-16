@@ -9,8 +9,8 @@
     <picture>
       <img
         class="cover-preview"
-        src="<%= locals.book.cover_path %>"
-        alt="Cover image of <%= book.title %>"
+        src="<%= locals.book?.cover_path %>"
+        alt="Cover image of <%= locals.book?.title %>"
       />
     </picture>
     <%- include('../../partials/icons/upload') %>
@@ -20,7 +20,7 @@
       name="cover"
       id="cover"
       accept="image/jpeg,image/jpg,image/png,image/webp,image/avif"
-      value="<%= locals.book.cover_path %>"
+      value="<%= locals.book?.cover_path %>"
     />
   </label>
   <div class="form-field-group">
@@ -30,7 +30,7 @@
         type="text"
         name="title"
         id="title"
-        value="<%= locals.book.title %>"
+        value="<%= locals.book?.title %>"
         maxlength="100"
         required
         placeholder="Enter the book title"
@@ -42,7 +42,7 @@
         type="text"
         name="author"
         id="author"
-        value="<%= locals.book.author %>"
+        value="<%= locals.book?.author %>"
         maxlength="100"
         required
         placeholder="Enter the author's name"
@@ -57,7 +57,7 @@
       rows="5"
       placeholder="Enter a book description"
     >
-<%= locals.book.description %></textarea
+<%= locals.book?.description %></textarea
     >
   </div>
   <div class="form-field-group">
@@ -67,7 +67,7 @@
         type="number"
         name="pages"
         id="pages"
-        value="<%= locals.book.pages %>"
+        value="<%= locals.book?.pages %>"
         min="1"
         max="9999"
         required
@@ -80,7 +80,7 @@
         type="text"
         name="isbn"
         id="isbn"
-        value="<%= locals.book.isbn %>"
+        value="<%= locals.book?.isbn %>"
         placeholder="Enter the ISBN number"
       />
     </div>
@@ -92,7 +92,7 @@
       name="publishedDate"
       id="publishedDate"
       required
-      value="<%= locals.book.publishedDate ? new Date(locals.book.publishedDate).toISOString().slice(0, 10) : '' %>"
+      value="<%= locals.book?.publishedDate ? new Date(locals.book?.publishedDate).toISOString().slice(0, 10) : '' %>"
       max="<%= new Date().toISOString().slice(0, 10) %>"
     />
   </div>
