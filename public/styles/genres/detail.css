@@ -1,0 +1,11 @@
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing);
+  padding: var(--spacing);
+}
+
+#deleteGenreForm {
+  align-self: flex-end;
+}
