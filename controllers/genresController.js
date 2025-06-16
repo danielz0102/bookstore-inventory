@@ -8,10 +8,6 @@ class GenresController {
     res.render('genres/pages/index', { title: 'Genres', genres })
   })
 
-  renderAddGenrePage = asyncHandler(async (req, res) => {
-    res.render('genres/pages/add', { title: 'Add a new genre' })
-  })
-
   postGenre = asyncHandler(async (req, res) => {
     const { name } = req.body
     const id = await GenresModel.create(name)
