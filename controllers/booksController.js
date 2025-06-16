@@ -26,7 +26,6 @@ class BooksController {
           description: 'No books found',
         }
     const totalPages = Math.ceil(totalBooks / limit)
-
     const allGenres = await GenresModel.getAll()
 
     res.render('books/pages/index', {
@@ -108,8 +107,7 @@ class BooksController {
     const errors = validationResult(req).array()
 
     if (errors.length > 0) {
-      console.error({ errors })
-      throw new ClientError('Validation error', 'Form data is invalid')
+      throw new ClientError(errors, 'Form data is invalid')
     }
 
     const bookId = Number(req.params.id)

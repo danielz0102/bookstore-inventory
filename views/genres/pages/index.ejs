@@ -4,6 +4,9 @@
     <%- include('../../partials/commonHeadTags') %>
     <title><%= title %></title>
     <link rel="stylesheet" href="/styles/genres/partials/genres-list.css" />
+    <link rel="stylesheet" href="/styles/partials/modal.css" />
+    <link rel="stylesheet" href="/styles/partials/form.css" />
+    <script type="module" src="/scripts/genres/index.js"></script>
   </head>
   <body>
     <%- include('../../partials/navbar') %>
@@ -19,9 +22,30 @@
         </a>
         <% }) %>
       </nav>
-      <button class="link">
+      <button class="link" id="showAddGenreModalBtn">
         <%- include('../../partials/icons/plus') %> Add a new genre
       </button>
     </main>
+    <%- include('../../partials/modal', {
+      id: 'addGenreModal',
+      title: 'Add a new genre',
+      content: {
+        include: 'genres/partials/genreForm',
+        locals: {
+          action: '/genres/add'
+        }
+      },
+      btn1: {
+        class: 'btn btn--secondary',
+        text: 'Cancel',
+        dataAction: 'cancel'
+      },
+      btn2: {
+        class: 'btn',
+        text: 'Add genre',
+        dataAction: 'confirm',
+        form: 'genreForm',
+      },
+    }) %>
   </body>
 </html>

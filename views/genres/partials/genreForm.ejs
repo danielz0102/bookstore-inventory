@@ -1,0 +1,14 @@
+<form action="<%= action %>" method="post" id="genreForm">
+  <div class="form-field">
+    <label for="name">Genre name</label>
+    <input
+      type="text"
+      name="name"
+      id="name"
+      value="<%= locals.genre?.name %>"
+      maxlength="100"
+      required
+      placeholder="Enter the genre name"
+    />
+  </div>
+</form>
