@@ -1,0 +1,70 @@
+.modal:has(form) h3 {
+  font-size: 2rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-tiny);
+
+  & input,
+  textarea {
+    color: var(--background);
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+  }
+
+  &:has(.label-image) {
+    gap: var(--spacing-small);
+  }
+}
+
+.form-field-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-small);
+
+  & > .form-field {
+    flex: 1;
+  }
+}
+
+.cover-preview {
+  width: 200px;
+  align-self: center;
+}
+
+.label-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-small);
+  align-self: center;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.75;
+  }
+
+  &:has(input[type='file']:focus-visible) {
+    outline: 2px solid var(--primary);
+  }
+}
+
+.genres-fieldset {
+  border: none;
+  padding: var(--spacing-tiny);
+}
+
+#genres-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-small);
+}

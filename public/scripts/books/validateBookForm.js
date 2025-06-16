@@ -18,7 +18,6 @@ form.addEventListener('submit', (event) => {
     return isbnInput.reportValidity()
   }
 
-  isbnInput.setCustomValidity('')
   form.submit()
 })
 

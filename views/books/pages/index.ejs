@@ -5,6 +5,8 @@
     <title><%= title %></title>
     <link rel="stylesheet" href="styles/books/index.css" />
     <link rel="stylesheet" href="styles/partials/search.css" />
+    <link rel="stylesheet" href="styles/partials/modal.css" />
+    <link rel="stylesheet" href="styles/partials/form.css" />
 
     <% if (books.length === 0) { %>
     <link rel="stylesheet" href="styles/partials/empty-section.css" />
@@ -13,6 +15,9 @@
     <link rel="stylesheet" href="styles/books/partials/book-card.css" />
     <link rel="stylesheet" href="styles/partials/pagination.css" />
     <% } %>
+
+    <script type="module" src="/scripts/books/bookIndex.js" defer></script>
+    <script type="module" src="/scripts/books/bookForm.js" defer></script>
   </head>
   <body>
     <%- include('../../partials/navbar') %>
@@ -25,8 +30,8 @@
       <h1 class="title">Books</h1>
       <div class="actions">
         <%- include('../../partials/search', searchOptions) %>
-        <a class="link" href="books/add"
-          ><svg
+        <button id="modalBtn" class="link">
+          <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -39,9 +44,10 @@
           >
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M12 5l0 14" />
-            <path d="M5 12l14 0" /></svg
-          >Add a new book</a
-        >
+            <path d="M5 12l14 0" />
+          </svg>
+          Add a new book
+        </button>
       </div>
       <% if (books.length === 0) { %>
       <%- include('../../partials/empty', { fallback }) %>
@@ -52,5 +58,26 @@
     <% if (books.length > 0) { %>
     <%- include('../../partials/pagination', { page, totalPages, search }) %>
     <% } %>
+    <%- include('../../partials/modal', { 
+      id: 'addBookModal', 
+      title: 'Add a new book', 
+      content: {
+        include: 'books/partials/bookForm',
+        locals: {
+          action: `/books/add`,
+        }
+      },
+      btn1: {
+        dataAction: 'cancel',
+        text: 'Go back',
+        class: 'btn btn--secondary'
+      },
+      btn2: {
+        dataAction: 'confirm',
+        form: 'bookForm',
+        text: 'Add',
+        class: 'btn'
+      }
+    }) %>
   </body>
 </html>

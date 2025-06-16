@@ -9,4 +9,8 @@ export default defineConfig([
     extends: ['js/recommended'],
   },
   { files: ['**/*.{js,mjs,cjs}'], languageOptions: { globals: globals.node } },
+  {
+    files: ['public/scripts/**/*.js'],
+    languageOptions: { globals: globals.browser },
+  },
 ])

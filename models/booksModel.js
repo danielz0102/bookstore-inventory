@@ -1,5 +1,6 @@
 import db from '../db/pool.js'
 import { handleDbError } from '../lib/errors/DatabaseError.js'
+import { DatabaseError } from '../lib/errors/DatabaseError.js'
 
 class BooksModel {
   async getAll() {
@@ -29,12 +30,11 @@ class BooksModel {
       pages,
       publishedDate,
       isbn,
-      genresIds,
+      genres,
       coverPath,
     } = book
     const query =
       'INSERT INTO books (title, author, description, pages, published_date, isbn, cover_path) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id'
-
     const values = [
       title,
       author,
@@ -49,29 +49,59 @@ class BooksModel {
     const bookId = rows[0].id
 
     // Also insert into the junction table
-    if (genresIds.length > 0) {
-      const genreValues = genresIds.map((genreId) => [bookId, genreId])
-      // All values are inserted in a single query
-      const valuePlaceholders = genreValues
-        .map((_, i) => `($${i * 2 + 1}, $${i * 2 + 2})`)
-        .join(', ')
-      const flatValues = genreValues.flat()
-      const genreQuery = `INSERT INTO books_genres (book_id, genre_id) VALUES ${valuePlaceholders}`
-
-      await handleDbError(() => db.query(genreQuery, flatValues))
+    if (genres?.length > 0) {
+      await this.insertBookGenres(bookId, genres)
     }
 
     return bookId
   }
 
   async update(id, book) {
-    const { title, author, description, pages, publishedDate } = book
+    const {
+      title,
+      author,
+      description,
+      pages,
+      publishedDate,
+      isbn,
+      coverPath,
+      genres,
+    } = book
+    const finalCoverPath = coverPath || (await this.getCoverPath(id))
     const query =
-      'UPDATE books SET title = $1, author = $2, description = $3, pages = $4, published_date = $5 WHERE id = $6'
-    const values = [title, author, description, pages, publishedDate, id]
-    const { rowCount } = await handleDbError(() => db.query(query, values))
+      'UPDATE books SET title = $1, author = $2, description = $3, pages = $4, published_date = $5, isbn = $6, cover_path = $7 WHERE id = $8'
+    const values = [
+      title,
+      author,
+      description,
+      pages,
+      publishedDate,
+      isbn,
+      finalCoverPath,
+      id,
+    ]
 
-    return rowCount > 0
+    await handleDbError(() => db.query(query, values))
+
+    //Replace genres in the junction table
+    await handleDbError(() =>
+      db.query('DELETE FROM books_genres WHERE book_id = $1', [id]),
+    )
+
+    if (genres?.length > 0) {
+      await this.insertBookGenres(id, genres)
+    }
+  }
+
+  async insertBookGenres(bookId, genresIds) {
+    const genreValues = genresIds.map((genreId) => [bookId, genreId])
+    const valuePlaceholders = genreValues
+      .map((_, i) => `($${i * 2 + 1}, $${i * 2 + 2})`)
+      .join(', ')
+    const flatValues = genreValues.flat()
+    const query = `INSERT INTO books_genres (book_id, genre_id) VALUES ${valuePlaceholders}`
+
+    await handleDbError(() => db.query(query, flatValues))
   }
 
   async delete(id) {
@@ -108,6 +138,18 @@ class BooksModel {
     const values = [`%${term}%`]
     const { rows } = await handleDbError(() => db.query(query, values))
     return Number(rows[0].count)
+  }
+
+  async getCoverPath(id) {
+    const { rows } = await handleDbError(() =>
+      db.query('SELECT cover_path FROM books WHERE id = $1', [id]),
+    )
+
+    if (rows.length === 0) {
+      throw new DatabaseError(`Book with ID ${id} not found`)
+    }
+
+    return rows[0].cover_path
   }
 }
 

@@ -1,15 +1,12 @@
-import multer from 'multer'
-import { validationResult, matchedData } from 'express-validator'
 import asyncHandler from 'express-async-handler'
+import { validationResult, matchedData } from 'express-validator'
 
 import BooksModel from '../models/booksModel.js'
 import GenresModel from '../models/genresModel.js'
 import { NotFoundError } from '../lib/errors/NotFoundError.js'
-import { validateBook } from '../lib/validations/bookValidation.js'
+import { ClientError } from '../lib/errors/ClientError.js'
 import { booksFallbackOptions } from './lib/constants/booksFallbackOptions.js'
 import { getBookCard } from './lib/mappers/getBookCard.js'
-
-const upload = multer({ dest: 'public/uploads/bookCovers/' })
 
 class BooksController {
   renderBooksPage = asyncHandler(async (req, res) => {
@@ -29,66 +26,20 @@ class BooksController {
           description: 'No books found',
         }
     const totalPages = Math.ceil(totalBooks / limit)
+
+    const allGenres = await GenresModel.getAll()
+
     res.render('books/pages/index', {
       title: 'Books',
       books,
       fallback,
       search,
       page,
+      allGenres,
       totalPages,
       totalBooks,
     })
   })
-
-  renderAddBookPage = asyncHandler(async (req, res) => {
-    const genres = await GenresModel.getPage(10)
-    res.render('books/pages/add', { title: 'Add a new book', genres })
-  })
-
-  postBook = [
-    upload.single('coverImg'),
-    validateBook,
-    asyncHandler(async (req, res) => {
-      const errors = validationResult(req)
-
-      if (!errors.isEmpty()) {
-        const genres = await GenresModel.getPage(10)
-
-        return res.render('books/pages/add', {
-          title: 'Add a new book',
-          errors: errors.array(),
-          oldData: req.body,
-          genres,
-        })
-      }
-
-      const book = matchedData(req)
-      let genresIds = []
-
-      // If just one genre was sent
-      if (typeof book.genres === 'string') {
-        genresIds.push(Number(book.genres))
-      } else if (Array.isArray(book.genres)) {
-        genresIds = book.genres.map(Number)
-      }
-
-      const modelBook = {
-        title: book.title,
-        author: book.author,
-        description: book.description,
-        pages: book.pages,
-        publishedDate: book.publishedDate,
-        isbn: book.isbn,
-        genresIds,
-        coverPath: req.file
-          ? `bookCovers/${req.file.filename}`
-          : 'initial/placeholder.webp',
-      }
-
-      await BooksModel.add(modelBook)
-      res.redirect('/books')
-    }),
-  ]
 
   renderBookDetailPage = asyncHandler(async (req, res) => {
     const bookId = Number(req.params.id)
@@ -101,8 +52,13 @@ class BooksController {
       )
     }
 
-    const genres = await GenresModel.getByBookId(book.id)
-    const genresNames = genres.map((genre) => genre.name)
+    console.log({ book })
+    const bookGenres = await GenresModel.getByBookId(book.id)
+    const allGenres = await GenresModel.getAll()
+    const genresLeft = allGenres.filter(
+      (genre) => !bookGenres.some((bookGenre) => bookGenre.id === genre.id),
+    )
+
     const formatDate = (date) => {
       return new Date(date).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -116,9 +72,30 @@ class BooksController {
       book: {
         ...book,
         publishedDate: formatDate(book.published_date),
+        genres: bookGenres,
       },
-      genres: genresNames,
+      genresLeft,
     })
+  })
+
+  add = asyncHandler(async (req, res) => {
+    const errors = validationResult(req).array()
+
+    if (errors.length > 0) {
+      throw new ClientError(errors, 'Form data is invalid')
+    }
+
+    const data = matchedData(req)
+    const coverPath = req.file
+      ? `/uploads/bookCovers/${req.file.filename}`
+      : null
+
+    const bookId = await BooksModel.add({
+      ...data,
+      coverPath,
+    })
+
+    res.redirect(`/books/${bookId}`)
   })
 
   delete = asyncHandler(async (req, res) => {
@@ -127,46 +104,29 @@ class BooksController {
     res.redirect('/books')
   })
 
-  renderUpdatePage = asyncHandler(async (req, res) => {
-    const bookId = Number(req.params.id)
-    const book = await BooksModel.getById(bookId)
+  update = asyncHandler(async (req, res) => {
+    const errors = validationResult(req).array()
 
-    if (book === false) {
-      throw new NotFoundError(
-        `Book with ID ${bookId} not found`,
-        'Book not found',
-      )
+    if (errors.length > 0) {
+      console.error({ errors })
+      throw new ClientError('Validation error', 'Form data is invalid')
     }
 
-    const genres = await GenresModel.getPage(10)
-    res.render('books/pages/update', { title: 'Update book', book, genres })
+    const bookId = Number(req.params.id)
+    const data = matchedData(req)
+    const coverPath = req.file
+      ? `/uploads/bookCovers/${req.file.filename}`
+      : null
+
+    console.log({ genres: data.genres })
+
+    await BooksModel.update(bookId, {
+      ...data,
+      coverPath,
+    })
+
+    res.redirect(`/books/${bookId}`)
   })
-
-  updateBook = [
-    validateBook,
-    asyncHandler(async (req, res) => {
-      const errors = validationResult(req)
-
-      if (!errors.isEmpty()) {
-        const bookId = Number(req.params.id)
-        const book = await BooksModel.getById(bookId)
-        const genres = await GenresModel.getPage(10)
-
-        return res.render('books/pages/update', {
-          title: 'Update book',
-          errors: errors.array(),
-          book,
-          genres,
-        })
-      }
-
-      const bookId = Number(req.params.id)
-      const book = matchedData(req)
-
-      await BooksModel.update(bookId, book)
-      res.redirect(`/books/${bookId}`)
-    }),
-  ]
 }
 
 export default new BooksController()

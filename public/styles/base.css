@@ -3,7 +3,12 @@
   --foreground-dark: #c0c0c0;
   --background: #1d1c1c;
   --background-light: #444444;
+
   --spacing: 16px;
+  --spacing-large: calc(var(--spacing) * 2);
+  --spacing-small: calc(var(--spacing) / 2);
+  --spacing-tiny: calc(var(--spacing) / 4);
+
   --primary: #83bee8;
   --danger: #e88383;
 }
@@ -41,6 +46,8 @@ body {
   gap: calc(var(--spacing) / 4);
   color: var(--primary);
   position: relative;
+  background: none;
+  border: none;
 
   &:hover {
     opacity: 0.5;
@@ -62,4 +69,45 @@ body {
 
 svg {
   flex-shrink: 0;
+}
+
+.btn {
+  --btn-bg: var(--primary);
+  --btn-fg: var(--background);
+
+  display: flex;
+  gap: 4px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  padding: 4px 16px 4px 12px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.btn--danger {
+  --btn-bg: transparent;
+  --btn-fg: var(--danger);
+}
+
+.btn--secondary {
+  --btn-bg: transparent;
+  --btn-fg: var(--foreground);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
