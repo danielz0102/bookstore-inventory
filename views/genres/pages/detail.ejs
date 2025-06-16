@@ -4,6 +4,13 @@
     <%- include('../../partials/commonHeadTags') %>
     <link rel="stylesheet" href="/styles/genres/detail.css" />
     <link rel="stylesheet" href="/styles/partials/modal.css" />
+    <link rel="stylesheet" href="/styles/books/partials/book-list.css" />
+    <link rel="stylesheet" href="/styles/books/partials/book-card.css" />
+
+    <% if (genre.books.length === 0) { %>
+    <link rel="stylesheet" href="/styles/partials/empty-section.css" />
+    <% } %>
+
     <script type="module" src="/scripts/genres/detail.js" defer></script>
     <title><%= title %></title>
   </head>
@@ -20,12 +27,28 @@
           <%- include('../../partials/icons/trashCan') %> Delete
         </button>
       </form>
+
+      <% if (genre.books.length > 0) { %>
+      <section class="books">
+        <%- include('../../books/partials/bookList', { books: genre.books }) %>
+      </section>
+      <% } else { %>
+      <%- include('../../partials/empty', {
+          fallback: {
+            description: 'This genre has no books yet.',
+            link: {
+              href: '/books',
+              call: 'Add a new book',
+            },
+          }
+        }) %>
+      <% } %>
     </main>
 
     <%- include('../../partials/modal', {
       id: 'confirmDeleteModal',
       title: 'Confirm Deletion',
-      message: 'Are you sure you want to delete this genre?',
+      message: 'Are you sure you want to delete this genre? The books contained in it will not be deleted.',
       btn1: {
         text: 'Delete',
         class: 'btn btn--danger',

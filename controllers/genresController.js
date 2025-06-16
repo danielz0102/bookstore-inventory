@@ -4,6 +4,7 @@ import asyncHandler from 'express-async-handler'
 import GenresModel from '../models/genresModel.js'
 import { NotFoundError } from '../lib/errors/NotFoundError.js'
 import { ClientError } from '../lib/errors/ClientError.js'
+import { getBookCard } from './lib/mappers/getBookCard.js'
 
 class GenresController {
   renderGenresPage = asyncHandler(async (req, res) => {
@@ -34,6 +35,9 @@ class GenresController {
         'Genre not found',
       )
     }
+
+    const books = await GenresModel.getBooks(genre.id)
+    genre.books = books.map(getBookCard)
 
     res.render('genres/pages/detail', { title: genre.name, genre })
   })

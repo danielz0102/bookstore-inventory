@@ -51,7 +51,6 @@ class BooksController {
       )
     }
 
-    console.log({ book })
     const bookGenres = await GenresModel.getByBookId(book.id)
     const allGenres = await GenresModel.getAll()
     const genresLeft = allGenres.filter(
@@ -115,8 +114,6 @@ class BooksController {
     const coverPath = req.file
       ? `/uploads/bookCovers/${req.file.filename}`
       : null
-
-    console.log({ genres: data.genres })
 
     await BooksModel.update(bookId, {
       ...data,

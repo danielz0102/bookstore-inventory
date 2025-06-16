@@ -7,5 +7,9 @@ main {
 }
 
 #deleteGenreForm {
-  align-self: flex-end;
+  align-self: flex-start;
+}
+
+.books {
+  align-self: stretch;
 }
