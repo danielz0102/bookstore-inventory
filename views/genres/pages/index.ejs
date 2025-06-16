@@ -3,22 +3,49 @@
   <head>
     <%- include('../../partials/commonHeadTags') %>
     <title><%= title %></title>
+    <link rel="stylesheet" href="/styles/genres/index.css" />
+    <link rel="stylesheet" href="/styles/partials/modal.css" />
+    <link rel="stylesheet" href="/styles/partials/form.css" />
+    <script type="module" src="/scripts/genres/index.js"></script>
   </head>
   <body>
     <%- include('../../partials/navbar') %>
     <main>
-      <h1>Genres</h1>
-      <ul>
+      <h1 class="title">Genres</h1>
+      <nav class="genres-list">
         <% if (genres.length === 0) { %>
-        <li>There are no genres yet</li>
+        <li class="fallback">There are no genres yet</li>
         <% } %>
         <% genres.forEach(genre => { %>
-        <li>
-          <a href="/genres/<%= genre.id %>"><%= genre.name %></a>
-        </li>
+        <a class="genre-link" href="/genres/<%= genre.id %>">
+          <%= genre.name %>
+        </a>
         <% }) %>
-      </ul>
-      <a href="/genres/add">Add a new genre</a>
+      </nav>
+      <button class="link" id="showAddGenreModalBtn">
+        <%- include('../../partials/icons/plus') %> Add a new genre
+      </button>
     </main>
+    <%- include('../../partials/modal', {
+      id: 'addGenreModal',
+      title: 'Add a new genre',
+      content: {
+        include: 'genres/partials/genreForm',
+        locals: {
+          action: '/genres/add'
+        }
+      },
+      btn1: {
+        class: 'btn btn--secondary',
+        text: 'Cancel',
+        dataAction: 'cancel'
+      },
+      btn2: {
+        class: 'btn',
+        text: 'Add genre',
+        dataAction: 'confirm',
+        form: 'genreForm',
+      },
+    }) %>
   </body>
 </html>

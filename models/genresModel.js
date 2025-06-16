@@ -72,6 +72,21 @@ class GenresModel {
 
     return rows
   }
+
+  async getBooks(genreId, limit = 18, offset = 0) {
+    const { rows } = await handleDbError(() =>
+      db.query(
+        `SELECT b.* FROM books b
+         JOIN books_genres bg ON b.id = bg.book_id
+         WHERE bg.genre_id = $1
+         ORDER BY b.id
+         LIMIT $2 OFFSET $3`,
+        [genreId, limit, offset],
+      ),
+    )
+
+    return rows
+  }
 }
 
 export default new GenresModel()

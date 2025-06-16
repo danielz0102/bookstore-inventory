@@ -26,7 +26,6 @@ class BooksController {
           description: 'No books found',
         }
     const totalPages = Math.ceil(totalBooks / limit)
-
     const allGenres = await GenresModel.getAll()
 
     res.render('books/pages/index', {
@@ -52,7 +51,6 @@ class BooksController {
       )
     }
 
-    console.log({ book })
     const bookGenres = await GenresModel.getByBookId(book.id)
     const allGenres = await GenresModel.getAll()
     const genresLeft = allGenres.filter(
@@ -108,8 +106,7 @@ class BooksController {
     const errors = validationResult(req).array()
 
     if (errors.length > 0) {
-      console.error({ errors })
-      throw new ClientError('Validation error', 'Form data is invalid')
+      throw new ClientError(errors, 'Form data is invalid')
     }
 
     const bookId = Number(req.params.id)
@@ -117,8 +114,6 @@ class BooksController {
     const coverPath = req.file
       ? `/uploads/bookCovers/${req.file.filename}`
       : null
-
-    console.log({ genres: data.genres })
 
     await BooksModel.update(bookId, {
       ...data,
