@@ -9,7 +9,7 @@ export const booksRouter = Router()
 
 booksRouter.get('/', BooksController.renderBooksPage)
 booksRouter.post('/add', coverUpload, validateBook, BooksController.add)
-booksRouter.post('/delete/:id', BooksController.delete)
+booksRouter.post('/delete/:id', checkPassword, BooksController.delete)
 booksRouter.get('/:id', BooksController.renderBookDetailPage)
 booksRouter.post(
   '/update/:id',

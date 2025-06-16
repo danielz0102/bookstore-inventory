@@ -7,7 +7,11 @@
     <%- include(`../${content.include}`, content.locals) %>
     <% } %>
     <div class="modal-btns">
-      <button class="<%= btn1.class %>" data-action="<%= btn1.dataAction %>">
+      <button
+        class="<%= btn1.class %>"
+        data-action="<%= btn1.dataAction %>"
+        form="<%= btn1.form %>"
+      >
         <%= btn1.text %>
       </button>
       <button
