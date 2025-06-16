@@ -3,22 +3,25 @@
   <head>
     <%- include('../../partials/commonHeadTags') %>
     <title><%= title %></title>
+    <link rel="stylesheet" href="/styles/genres/partials/genres-list.css" />
   </head>
   <body>
     <%- include('../../partials/navbar') %>
     <main>
-      <h1>Genres</h1>
-      <ul>
+      <h1 class="title">Genres</h1>
+      <nav class="genres-list">
         <% if (genres.length === 0) { %>
-        <li>There are no genres yet</li>
+        <li class="fallback">There are no genres yet</li>
         <% } %>
         <% genres.forEach(genre => { %>
-        <li>
-          <a href="/genres/<%= genre.id %>"><%= genre.name %></a>
-        </li>
+        <a class="genre-link" href="/genres/<%= genre.id %>">
+          <%= genre.name %>
+        </a>
         <% }) %>
-      </ul>
-      <a href="/genres/add">Add a new genre</a>
+      </nav>
+      <button class="link">
+        <%- include('../../partials/icons/plus') %> Add a new genre
+      </button>
     </main>
   </body>
 </html>

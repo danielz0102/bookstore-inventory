@@ -102,10 +102,6 @@ main {
   border-radius: 16px;
 }
 
-.fallback {
-  font-style: italic;
-}
-
 footer {
   display: flex;
   justify-content: center;
