@@ -54,10 +54,10 @@ class BooksController {
     }
 
     const bookGenres = await GenresModel.getByBookId(book.id)
-    const bookGenresNames = bookGenres.map((genre) => genre.name)
-
     const allGenres = await GenresModel.getAll()
-    const allGenresNames = allGenres.map((genre) => genre.name)
+    const genresLeft = allGenres.filter(
+      (genre) => !bookGenres.some((bookGenre) => bookGenre.id === genre.id),
+    )
 
     const formatDate = (date) => {
       return new Date(date).toLocaleDateString('en-US', {
@@ -72,9 +72,9 @@ class BooksController {
       book: {
         ...book,
         publishedDate: formatDate(book.published_date),
-        genres: bookGenresNames,
+        genres: bookGenres,
       },
-      allGenres: allGenresNames,
+      genresLeft,
     })
   })
 
@@ -82,8 +82,7 @@ class BooksController {
     const errors = validationResult(req).array()
 
     if (errors.length > 0) {
-      console.error({ errors })
-      throw new ClientError('Validation error', 'Form data is invalid')
+      throw new ClientError(errors, 'Form data is invalid')
     }
 
     const data = matchedData(req)
@@ -119,9 +118,12 @@ class BooksController {
       ? `/uploads/bookCovers/${req.file.filename}`
       : null
 
+    console.log({ genres: data.genres })
+
     await BooksModel.update(bookId, {
       ...data,
       coverPath,
+      genresIds: data.genres,
     })
 
     res.redirect(`/books/${bookId}`)

@@ -35,7 +35,6 @@ class BooksModel {
     } = book
     const query =
       'INSERT INTO books (title, author, description, pages, published_date, isbn, cover_path) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id'
-
     const values = [
       title,
       author,
@@ -51,15 +50,7 @@ class BooksModel {
 
     // Also insert into the junction table
     if (genresIds?.length > 0) {
-      const genreValues = genresIds.map((genreId) => [bookId, genreId])
-      // All values are inserted in a single query
-      const valuePlaceholders = genreValues
-        .map((_, i) => `($${i * 2 + 1}, $${i * 2 + 2})`)
-        .join(', ')
-      const flatValues = genreValues.flat()
-      const genreQuery = `INSERT INTO books_genres (book_id, genre_id) VALUES ${valuePlaceholders}`
-
-      await handleDbError(() => db.query(genreQuery, flatValues))
+      await this.insertBookGenres(bookId, genresIds)
     }
 
     return bookId
@@ -74,9 +65,9 @@ class BooksModel {
       publishedDate,
       isbn,
       coverPath,
+      genresIds,
     } = book
     const finalCoverPath = coverPath || (await this.getCoverPath(id))
-
     const query =
       'UPDATE books SET title = $1, author = $2, description = $3, pages = $4, published_date = $5, isbn = $6, cover_path = $7 WHERE id = $8'
     const values = [
@@ -91,6 +82,26 @@ class BooksModel {
     ]
 
     await handleDbError(() => db.query(query, values))
+
+    //Replace genres in the junction table
+    await handleDbError(() =>
+      db.query('DELETE FROM books_genres WHERE book_id = $1', [id]),
+    )
+
+    if (genresIds?.length > 0) {
+      await this.insertBookGenres(id, genresIds)
+    }
+  }
+
+  async insertBookGenres(bookId, genresIds) {
+    const genreValues = genresIds.map((genreId) => [bookId, genreId])
+    const valuePlaceholders = genreValues
+      .map((_, i) => `($${i * 2 + 1}, $${i * 2 + 2})`)
+      .join(', ')
+    const flatValues = genreValues.flat()
+    const query = `INSERT INTO books_genres (book_id, genre_id) VALUES ${valuePlaceholders}`
+
+    await handleDbError(() => db.query(query, flatValues))
   }
 
   async delete(id) {

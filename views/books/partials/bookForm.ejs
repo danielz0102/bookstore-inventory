@@ -96,5 +96,21 @@
       max="<%= new Date().toISOString().slice(0, 10) %>"
     />
   </div>
-  <%- include('genresList') %>
+  <fieldset class="genres-fieldset">
+    <legend>Select some genres</legend>
+    <div id="genres-checkboxes">
+      <% locals.book?.genres?.forEach((genre) => { %>
+      <label>
+        <input type="checkbox" name="genres" value="<%= genre.id %>" checked />
+        <%= genre.name %>
+      </label>
+      <% }) %>
+      <% locals.genresLeft?.forEach((genre) => { %>
+      <label>
+        <input type="checkbox" name="genres" value="<%= genre.id %>" />
+        <%= genre.name %>
+      </label>
+      <% }) %>
+    </div>
+  </fieldset>
 </form>
