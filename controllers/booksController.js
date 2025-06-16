@@ -28,7 +28,6 @@ class BooksController {
     const totalPages = Math.ceil(totalBooks / limit)
 
     const allGenres = await GenresModel.getAll()
-    const allGenresNames = allGenres.map((genre) => genre.name)
 
     res.render('books/pages/index', {
       title: 'Books',
@@ -36,7 +35,7 @@ class BooksController {
       fallback,
       search,
       page,
-      allGenres: allGenresNames,
+      allGenres,
       totalPages,
       totalBooks,
     })
@@ -53,6 +52,7 @@ class BooksController {
       )
     }
 
+    console.log({ book })
     const bookGenres = await GenresModel.getByBookId(book.id)
     const allGenres = await GenresModel.getAll()
     const genresLeft = allGenres.filter(
@@ -123,7 +123,6 @@ class BooksController {
     await BooksModel.update(bookId, {
       ...data,
       coverPath,
-      genresIds: data.genres,
     })
 
     res.redirect(`/books/${bookId}`)

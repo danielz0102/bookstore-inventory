@@ -30,7 +30,7 @@ class BooksModel {
       pages,
       publishedDate,
       isbn,
-      genresIds,
+      genres,
       coverPath,
     } = book
     const query =
@@ -49,8 +49,8 @@ class BooksModel {
     const bookId = rows[0].id
 
     // Also insert into the junction table
-    if (genresIds?.length > 0) {
-      await this.insertBookGenres(bookId, genresIds)
+    if (genres?.length > 0) {
+      await this.insertBookGenres(bookId, genres)
     }
 
     return bookId
@@ -65,7 +65,7 @@ class BooksModel {
       publishedDate,
       isbn,
       coverPath,
-      genresIds,
+      genres,
     } = book
     const finalCoverPath = coverPath || (await this.getCoverPath(id))
     const query =
@@ -88,8 +88,8 @@ class BooksModel {
       db.query('DELETE FROM books_genres WHERE book_id = $1', [id]),
     )
 
-    if (genresIds?.length > 0) {
-      await this.insertBookGenres(id, genresIds)
+    if (genres?.length > 0) {
+      await this.insertBookGenres(id, genres)
     }
   }
 
