@@ -9,7 +9,7 @@
     <picture>
       <img
         class="cover-preview"
-        src="<%= locals.book?.cover_path || 'uploads/initial/placeholder.webp' %>"
+        src="<%= locals.book?.cover_path || '/uploads/initial/placeholder.webp' %>"
         alt="Cover image of <%= locals.book?.title %>"
       />
     </picture>
@@ -106,6 +106,12 @@
       </label>
       <% }) %>
       <% locals.genresLeft?.forEach((genre) => { %>
+      <label>
+        <input type="checkbox" name="genres" value="<%= genre.id %>" />
+        <%= genre.name %>
+      </label>
+      <% }) %>
+      <% locals.allGenres?.forEach((genre) => { %>
       <label>
         <input type="checkbox" name="genres" value="<%= genre.id %>" />
         <%= genre.name %>

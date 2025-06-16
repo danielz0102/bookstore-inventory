@@ -16,7 +16,7 @@
         <h1 class="title"><%= book.title %></h1>
         <figure class="book-cover">
           <img
-            src="<%= book.cover_path %>"
+            src="<%= book.cover_path || '/uploads/initial/placeholder.webp' %>"
             alt="Cover image of <%= book.title %>"
           />
           <figcaption>
@@ -42,11 +42,14 @@
             <%- include('../../partials/icons/book') %>
             <p><%= book.pages %></p>
           </li>
+
+          <% if (book.isbn) { %>
           <li class="book-details__item">
             <h3>ISBN</h3>
             <%- include('../../partials/icons/barCode') %>
             <p><%= book.isbn %></p>
           </li>
+          <% } %>
         </ul>
         <section class="genres">
           <h2>Genres</h2>
