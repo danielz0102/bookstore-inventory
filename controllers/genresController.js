@@ -8,7 +8,7 @@ class GenresController {
     res.render('genres/pages/index', { title: 'Genres', genres })
   })
 
-  postGenre = asyncHandler(async (req, res) => {
+  add = asyncHandler(async (req, res) => {
     const { name } = req.body
     const id = await GenresModel.create(name)
     res.redirect(`/genres/${id}`)
