@@ -13,3 +13,8 @@ main {
 .books {
   align-self: stretch;
 }
+
+.actions {
+  display: flex;
+  gap: var(--spacing);
+}

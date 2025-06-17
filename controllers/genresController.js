@@ -47,6 +47,21 @@ class GenresController {
     await GenresModel.delete(id)
     res.redirect('/genres')
   })
+
+  update = asyncHandler(async (req, res) => {
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+      throw new ClientError(errors.array(), 'Genre form data is invalid')
+    }
+
+    const data = matchedData(req, { locations: ['body'] })
+    const id = Number(req.params.id)
+    const { name } = data
+
+    await GenresModel.update(id, name)
+    res.redirect(`/genres/${id}`)
+  })
 }
 
 export default new GenresController()

@@ -1,6 +1,11 @@
 import { setupModal } from '../partials/modal.js'
 
 const deleteBtn = document.querySelector('#deleteGenreBtn')
-const modal = document.querySelector('#confirmDeleteModal')
+const deleteModal = document.querySelector('#confirmDeleteModal')
 
-setupModal(modal, deleteBtn)
+setupModal(deleteModal, deleteBtn)
+
+const updateBtn = document.querySelector('#updateGenreBtn')
+const updateModal = document.querySelector('#updateGenreModal')
+
+setupModal(updateModal, updateBtn)

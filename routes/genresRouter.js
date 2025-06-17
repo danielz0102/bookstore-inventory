@@ -8,4 +8,10 @@ export const genresRouter = Router()
 genresRouter.get('/', GenresController.renderGenresPage)
 genresRouter.post('/add', validateGenre(['body']), GenresController.add)
 genresRouter.post('/delete/:id', checkPassword, GenresController.delete)
+genresRouter.post(
+  '/update/:id',
+  checkPassword,
+  validateGenre(['body']),
+  GenresController.update,
+)
 genresRouter.get('/:id', GenresController.renderGenreDetailPage)

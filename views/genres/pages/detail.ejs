@@ -19,9 +19,14 @@
     <%- include('../../partials/navbar') %>
     <main>
       <h1 class="title"><%= genre.name %></h1>
-      <button class="btn btn--danger" id="deleteGenreBtn" type="button">
-        <%- include('../../partials/icons/trashCan') %> Delete
-      </button>
+      <div class="actions">
+        <button class="btn btn--danger" id="deleteGenreBtn" type="button">
+          <%- include('../../partials/icons/trashCan') %> Delete
+        </button>
+        <button class="btn" id="updateGenreBtn">
+          <%- include('../../partials/icons/write') %> Update
+        </button>
+      </div>
 
       <% if (genre.books.length > 0) { %>
       <section class="books">
@@ -60,6 +65,29 @@
         text: 'Cancel',
         class: 'btn',
         dataAction: 'cancel',
+      },
+    }) %>
+
+    <%- include('../../partials/modal', {
+      id: 'updateGenreModal',
+      title: 'Update Genre',
+      content: {
+        include: 'genres/partials/genreForm',
+        locals: {
+          action: `/genres/update/${genre.id}`,
+          password: true,
+        }
+      },
+      btn1: {
+        text: 'Go back',
+        class: 'btn btn--secondary',
+        dataAction: 'cancel',
+      },
+      btn2: {
+        text: 'Save changes',
+        class: 'btn',
+        dataAction: 'confirm',
+        form: 'genreForm',
       },
     }) %>
   </body>
