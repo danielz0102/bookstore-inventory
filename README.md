@@ -1,6 +1,5 @@
 # inventory_app
 
-## TODO for book detail page
+## TODO
 
-- [x] Add modal update book (replace update page)
-- [x] Add modal to confirm book deletion
+- [ ] Update genres

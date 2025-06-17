@@ -119,4 +119,16 @@
       <% }) %>
     </div>
   </fieldset>
+  <% if (locals.password) { %>
+  <div class="form-field">
+    <label for="password">Enter the admin password</label>
+    <input
+      type="password"
+      name="password"
+      id="password"
+      required
+      placeholder="*********"
+    />
+  </div>
+  <% } %>
 </form>
