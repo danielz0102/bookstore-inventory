@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS books (
   description TEXT,
   pages INTEGER NOT NULL,
   published_date DATE NOT NULL,
-  isbn VARCHAR(20) UNIQUE
+  isbn VARCHAR(20) UNIQUE,
+  cover_path VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS genres (
@@ -48,7 +49,8 @@ INSERT INTO
     description,
     pages,
     published_date,
-    isbn
+    isbn,
+    cover_path
   )
 VALUES
   (
@@ -57,7 +59,8 @@ VALUES
     'A novel about racial injustice in the Deep South.',
     281,
     '1960-07-11',
-    '9780061120084'
+    '9780061120084',
+    '/uploads/initial/to-kill-a-mockingbird.webp'
   ),
   (
     '1984',
@@ -65,7 +68,8 @@ VALUES
     'A dystopian novel set in a totalitarian society.',
     328,
     '1949-06-08',
-    '9780451524935'
+    '9780451524935',
+    '/uploads/initial/1984.webp'
   ),
   (
     'The Hobbit',
@@ -73,7 +77,8 @@ VALUES
     'A fantasy adventure preceding The Lord of the Rings.',
     310,
     '1937-09-21',
-    '9780547928227'
+    '9780547928227',
+    '/uploads/initial/the-hobbit.jpeg'
   ),
   (
     'The Da Vinci Code',
@@ -81,7 +86,8 @@ VALUES
     'A mystery thriller involving secret societies.',
     454,
     '2003-03-18',
-    '9780307474278'
+    '9780307474278',
+    '/uploads/initial/the-da-vinci-code.webp'
   ),
   (
     'Sapiens',
@@ -89,7 +95,8 @@ VALUES
     'A brief history of humankind.',
     443,
     '2011-01-01',
-    '9780062316097'
+    '9780062316097',
+    '/uploads/initial/sapiens.webp'
   ),
   (
     'Steve Jobs',
@@ -97,7 +104,8 @@ VALUES
     'Biography of Steve Jobs.',
     656,
     '2011-10-24',
-    '9781451648539'
+    '9781451648539',
+    '/uploads/initial/steve-jobs.webp'
   ),
   (
     'The Diary of a Young Girl',
@@ -105,7 +113,8 @@ VALUES
     'Diary of Anne Frank during WWII.',
     283,
     '1947-06-25',
-    '9780553296983'
+    '9780553296983',
+    '/uploads/initial/the-diary-of-a-young-girl.webp'
   ),
   (
     'Pride and Prejudice',
@@ -113,7 +122,8 @@ VALUES
     'A classic romance novel.',
     279,
     '1813-01-28',
-    '9780141439518'
+    '9780141439518',
+    '/uploads/initial/pride-and-prejudice.webp'
   ),
   (
     'Dracula',
@@ -121,7 +131,8 @@ VALUES
     'A horror novel introducing Count Dracula.',
     418,
     '1897-05-26',
-    '9780486411095'
+    '9780486411095',
+    '/uploads/initial/dracula.webp'
   ),
   (
     'The Fault in Our Stars',
@@ -129,7 +140,8 @@ VALUES
     'A young adult romance about two teens with cancer.',
     313,
     '2012-01-10',
-    '9780525478812'
+    '9780525478812',
+    '/uploads/initial/the-fault-in-our-stars.webp'
   );
 
 INSERT INTO
@@ -162,7 +174,22 @@ VALUES
   (4, 1),
   -- The Da Vinci Code - Fiction
   (9, 1);
-  -- Dracula - Fiction
+
+-- Dracula - Fiction
+SELECT
+  *
+FROM
+  books;
+
+SELECT
+  *
+FROM
+  genres;
+
+SELECT
+  *
+FROM
+  books_genres;
 `
 
 const DB_URL = process.argv[2] || process.env.DB_URL
